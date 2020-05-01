@@ -1,103 +1,89 @@
 package com.francislevesque.freeunitconverter.controller
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
-import androidx.annotation.LayoutRes
 import com.francislevesque.freeunitconverter.R
-import com.francislevesque.freeunitconverter.model.Unit
+import com.francislevesque.freeunitconverter.model.Units
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val units = listOf(
-        Unit("kilogram", "kg", "mass"),
-        Unit("second", "s", "time"),
-        Unit("kelvin", "K", "temperature"),
-        Unit("ampere", "A", "electric current"),
-        Unit("mole", "mol", "amount of a substance"),
-        Unit("candela", "cd", "luminous intensity"),
-        Unit("meter", "m", "distance")
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupTextChangedListener()
 
-        val unitAdapter = UnitAdapter(this, R.layout.unit_list_item, units)
-        mainUnitToConvert.setAdapter(unitAdapter)
-        mainUnitToConvert.setOnItemClickListener { parent, _, position, _ ->
-            val selectedUnit = parent.adapter.getItem(position) as Unit?
-            mainUnitToConvert.setText(selectedUnit?.name)
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, Units.categories())
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categorySpinner.adapter = categoryAdapter
+
+        val unitToConvertAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, Units.units(Units.categories().first()))
+        unitToConvertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        unitToConvert.adapter = unitToConvertAdapter
+
+        val unitToConvertIntoAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, Units.units(Units.categories().first()))
+        unitToConvertIntoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        unitToConvertInto.adapter = unitToConvertIntoAdapter
+
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                unitToConvertAdapter.clear()
+                unitToConvertAdapter.addAll(Units.units(Units.categories()[position]))
+                unitToConvertAdapter.notifyDataSetChanged()
+
+                unitToConvertIntoAdapter.clear()
+                unitToConvertIntoAdapter.addAll(Units.units(Units.categories()[position]))
+                unitToConvertIntoAdapter.notifyDataSetChanged()
+            }
+
         }
+
+
+//        mainUnitToConvert.setOnItemClickListener { parent, _, position, _ ->
+//            val selectedUnit = parent.adapter.getItem(position) as Unit?
+//            mainUnitToConvert.setText(selectedUnit?.name)
+//        }
+
+//        val unitAdapter = AutoCompleteUnitAdapter(this, android.R.layout.simple_list_item_1, units)
+//        mainUnitToConvert.setAdapter(unitAdapter)
+//        mainUnitToConvert.setOnTouchListener(View.OnTouchListener { _, event ->
+//            when (event?.action) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    if (mainUnitToConvert.isPopupShowing) {
+//                        mainUnitToConvert.dismissDropDown()
+//                    } else {
+//                        mainUnitToConvert.showDropDown()
+//                    }
+//                }
+//            }
+//            false
+//        })
     }
 
     private fun setupTextChangedListener() {
-        mainValueToConvert.addTextChangedListener(object : TextWatcher {
+        valueToConvert.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                mainValueToConvertInto.text = s as Editable?
+                valueToConvertInto.text = s as Editable?
             }
 
             override fun afterTextChanged(s: Editable?) {
             }
         })
-    }
-
-    inner class UnitAdapter(context: Context, @LayoutRes private val layoutResource: Int, private val allUnits: List<Unit>):
-        ArrayAdapter<Unit>(context, layoutResource, allUnits),
-        Filterable {
-        private var filteredUnits = allUnits
-
-        override fun getCount(): Int {
-            return filteredUnits.size
-        }
-
-        override fun getItem(position: Int): Unit? {
-            return filteredUnits[position]
-        }
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val view: TextView = convertView as TextView? ?: LayoutInflater.from(context).inflate(layoutResource, parent, false) as TextView
-            view.text = "${filteredUnits[position].name}"
-            return view
-        }
-
-        override fun getFilter(): Filter {
-            return object : Filter() {
-                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                    if (results != null) {
-                        filteredUnits = results.values as List<Unit>
-                    }
-                    notifyDataSetChanged()
-                }
-
-                override fun performFiltering(constraint: CharSequence?): FilterResults {
-                    val query = constraint?.toString()?.toLowerCase()
-
-                    val results = FilterResults()
-                    results.values = if (query == null || query.isEmpty())
-                        allUnits
-                    else
-                        allUnits.filter { unit ->
-                            unit.name.toLowerCase().contains(query) ||
-                                    unit.symbol.toLowerCase().contains(query) ||
-                                    unit.type.toLowerCase().contains(query)
-                        }
-                    return results
-                }
-            }
-        }
     }
 }
