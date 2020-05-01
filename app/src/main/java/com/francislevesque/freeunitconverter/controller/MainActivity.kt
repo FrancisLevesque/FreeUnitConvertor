@@ -50,27 +50,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
-
-//        mainUnitToConvert.setOnItemClickListener { parent, _, position, _ ->
-//            val selectedUnit = parent.adapter.getItem(position) as Unit?
-//            mainUnitToConvert.setText(selectedUnit?.name)
-//        }
-
-//        val unitAdapter = AutoCompleteUnitAdapter(this, android.R.layout.simple_list_item_1, units)
-//        mainUnitToConvert.setAdapter(unitAdapter)
-//        mainUnitToConvert.setOnTouchListener(View.OnTouchListener { _, event ->
-//            when (event?.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    if (mainUnitToConvert.isPopupShowing) {
-//                        mainUnitToConvert.dismissDropDown()
-//                    } else {
-//                        mainUnitToConvert.showDropDown()
-//                    }
-//                }
-//            }
-//            false
-//        })
     }
 
     private fun setupTextChangedListener() {
