@@ -1,7 +1,9 @@
 package com.francislevesque.freeunitconverter.model
 
+import android.util.Log
+
 object Units {
-    private val categories = listOf(
+    val categories = listOf(
 //        "amount of a substance",
         "distance",
         "electric current",
@@ -11,25 +13,50 @@ object Units {
         "time"
     )
 
-    private val units = listOf(
-//        Unit("mole", "mol", "amount of a substance"),
+    private val distanceUnits = arrayListOf<Unit>(
         Unit("centimeter", "m", "distance"),
         Unit("kilometer", "m", "distance"),
         Unit("meter", "m", "distance"),
-        Unit("ampere", "A", "electric current"),
-        Unit("candela", "cd", "luminous intensity"),
-        Unit("kilogram", "kg", "mass"),
-        Unit("kelvin", "K", "temperature"),
+        Unit("foot", "ft", "distance")
+    )
+
+    private val amountUnits = arrayListOf<Unit>(
+        Unit("mole", "mol", "amount of a substance")
+    )
+
+    private val electricCurrentUnits = arrayListOf<Unit>(
+        Unit("ampere", "A", "electric current")
+    )
+
+    private val luminousIntensityUnits = arrayListOf<Unit>(
+        Unit("candela", "cd", "luminous intensity")
+    )
+
+    private val massUnits = arrayListOf<Unit>(
+        Unit("kilogram", "kg", "mass")
+    )
+
+    private val temperatureUnits = arrayListOf<Unit>(
+        Unit("kelvin", "K", "temperature")
+    )
+
+    private val timeUnits = arrayListOf<Unit>(
         Unit("second", "s", "time")
     )
 
-    fun categories(): List<String> {
-        return categories
-    }
-
-    fun units(category: String): List<Unit> {
-        return units.filter { unit ->
-            unit.type == category
+    fun unitsFor(category: String): List<Unit> {
+        return when(category) {
+            "distance" -> distanceUnits
+            "electric current" -> electricCurrentUnits
+            "luminous intensity" -> luminousIntensityUnits
+            "mass" -> massUnits
+            "temperature" -> temperatureUnits
+            "time" -> timeUnits
+            "amount of a substance" -> amountUnits
+            else -> {
+                Log.e("ERROR:", "Unknown category $category passed in!")
+                listOf()
+            }
         }
     }
 }
