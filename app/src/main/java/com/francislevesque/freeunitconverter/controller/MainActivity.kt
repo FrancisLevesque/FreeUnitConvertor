@@ -17,8 +17,8 @@ import java.math.BigDecimal
 class MainActivity : AppCompatActivity() {
     private var currentCategory = Units.categories.first()
     private lateinit var currentUnitList: List<Unit>
-    private lateinit var currentUnit : String
-    private lateinit var convertUnit : String
+    private lateinit var currentUnit : Unit
+    private lateinit var convertUnit : Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 currentCategory = Units.categories[position]
                 currentUnitList = Units.unitsFor(currentCategory)
-                currentUnit = currentUnitList.first().name
-                convertUnit = currentUnitList.first().name
+                currentUnit = currentUnitList.first()
+                convertUnit = currentUnitList.first()
 
                 unitToConvertAdapter.clear()
                 unitToConvertAdapter.addAll(currentUnitList)
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                currentUnit = currentUnitList[position].name
+                currentUnit = currentUnitList[position]
                 if (valueToConvert.text.isNotEmpty()) {
                     convert(valueToConvert.text.toString().toFloat())
                 }
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                convertUnit = currentUnitList[position].name
+                convertUnit = currentUnitList[position]
                 if (valueToConvert.text.isNotEmpty()) {
                     convert(valueToConvert.text.toString().toFloat())
                 }
@@ -82,8 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convert(value: Float) {
-        val convertedValue = Converter.convert(value, currentUnit, convertUnit)
-        valueToConvertInto.setText(convertedValue.toString())
+        valueToConvertInto.setText(currentUnit.convert(value, convertUnit).toString())
     }
 
     private fun setupTextChangedListener() {
