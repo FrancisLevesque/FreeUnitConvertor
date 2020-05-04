@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter
 import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
-import com.francislevesque.freeunitconverter.utilites.Converter
 import kotlinx.android.synthetic.main.activity_main.*
-import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
     private var currentCategory = Units.categories.first()
@@ -91,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
+                // TODO: Handle when unit is entered starting with decimal point
                 if (value.isNullOrBlank()) {
                     valueToConvertInto.setText("")
                 } else {
