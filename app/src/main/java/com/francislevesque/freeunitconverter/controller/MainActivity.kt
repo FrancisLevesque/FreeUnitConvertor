@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,12 +12,24 @@ import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
 import kotlinx.android.synthetic.main.activity_main.*
+import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
     private var currentCategory = Units.categories.first()
     private lateinit var currentUnitList: List<Unit>
     private lateinit var currentUnit : Unit
     private lateinit var convertUnit : Unit
+
+    // TODO:
+    //   - Create switcher icon and functionality
+    //   - Implement category class for default category unit
+    //   - Implement more complicated conversions (for temp)
+    //   - Add copy button?
+    //   - Create app icon
+    //   - Switch unit types from String to a list of tags
+    //   - Create categories based off of unit tags
+    //   - Add tests
+    //   - Add layout for tablets
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +62,12 @@ class MainActivity : AppCompatActivity() {
                 unitToConvertAdapter.clear()
                 unitToConvertAdapter.addAll(currentUnitList)
                 unitToConvertAdapter.notifyDataSetChanged()
+                unitToConvertSpinner.setSelection(0)
 
                 unitToConvertIntoAdapter.clear()
                 unitToConvertIntoAdapter.addAll(currentUnitList)
                 unitToConvertIntoAdapter.notifyDataSetChanged()
+                unitToConvertIntoSpinner.setSelection(0)
             }
         }
 
@@ -62,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 currentUnit = currentUnitList[position]
                 if (valueToConvert.text.isNotEmpty()) {
-                    convert(valueToConvert.text.toString().toFloat())
+                    convert(valueToConvert.text.toString().toBigDecimal())
                 }
             }
         }
@@ -73,27 +88,32 @@ class MainActivity : AppCompatActivity() {
             ) {
                 convertUnit = currentUnitList[position]
                 if (valueToConvert.text.isNotEmpty()) {
-                    convert(valueToConvert.text.toString().toFloat())
+                    convert(valueToConvert.text.toString().toBigDecimal())
                 }
             }
         }
     }
 
-    private fun convert(value: Float) {
-        valueToConvertInto.setText(currentUnit.convert(value, convertUnit).toString())
+    private fun convert(value: BigDecimal) {
+        try {
+            valueToConvertInto.text = currentUnit.convert(value, convertUnit).toString()
+        } catch (error: java.lang.ArithmeticException) {
+            Log.e("ERROR", "Couldn't convert $value ${currentUnit.name} to ${convertUnit.name}")
+            valueToConvertInto.text = "NaN"
+        }
     }
 
     private fun setupTextChangedListener() {
         valueToConvert.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
             }
 
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
-                // TODO: Handle when unit is entered starting with decimal point
-                if (value.isNullOrBlank()) {
-                    valueToConvertInto.setText("")
+                if (value.isNullOrBlank() || value.toString() == ".") {
+                    valueToConvertInto.text = ""
                 } else {
-                    convert(value.toString().toFloat())
+                    convert(value.toString().toBigDecimal())
                 }
             }
 
