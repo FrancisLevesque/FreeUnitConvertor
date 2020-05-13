@@ -38,16 +38,16 @@ class MainActivity : AppCompatActivity() {
 
         currentUnitList = Units.unitsFor(currentCategory)
 
-        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, Units.categories)
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val categoryAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, Units.categories)
+        categoryAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         categorySpinner.adapter = categoryAdapter
 
-        val unitToConvertAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ArrayList<Unit>())
-        unitToConvertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val unitToConvertAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
+        unitToConvertAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         unitToConvertSpinner.adapter = unitToConvertAdapter
 
-        val unitToConvertIntoAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ArrayList<Unit>())
-        unitToConvertIntoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val unitToConvertIntoAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
+        unitToConvertIntoAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         unitToConvertIntoSpinner.adapter = unitToConvertIntoAdapter
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
