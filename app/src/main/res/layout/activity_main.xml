@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/valueToConvert"
+        android:id="@+id/fromValue"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
     <Spinner
-        android:id="@+id/unitToConvertSpinner"
+        android:id="@+id/fromSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -66,16 +66,29 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorAccent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/valueToConvert"
+        app:layout_constraintEnd_toEndOf="@+id/fromValue"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/valueToConvert"
-        app:layout_constraintTop_toBottomOf="@+id/valueToConvert" />
+        app:layout_constraintStart_toStartOf="@+id/fromValue"
+        app:layout_constraintTop_toBottomOf="@+id/fromValue" />
+
+    <ImageButton
+        android:id="@+id/flipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:onClick="flipButtonClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fromSpinner"
+        app:srcCompat="@android:drawable/ic_popup_sync" />
 
     <TextView
-        android:id="@+id/valueToConvertInto"
+        android:id="@+id/toValue"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
         android:inputType="numberDecimal"
         android:textColor="@color/colorPrimary"
@@ -83,10 +96,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unitToConvertSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/flipButton" />
 
     <Spinner
-        android:id="@+id/unitToConvertIntoSpinner"
+        android:id="@+id/toSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -95,9 +108,9 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorAccent"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/valueToConvertInto"
+        app:layout_constraintEnd_toEndOf="@+id/toValue"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/valueToConvertInto"
-        app:layout_constraintTop_toBottomOf="@+id/valueToConvertInto" />
+        app:layout_constraintStart_toStartOf="@+id/toValue"
+        app:layout_constraintTop_toBottomOf="@+id/toValue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

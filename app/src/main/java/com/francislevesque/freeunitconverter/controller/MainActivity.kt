@@ -17,11 +17,10 @@ import java.math.BigDecimal
 class MainActivity : AppCompatActivity() {
     private var currentCategory = Units.categories.first()
     private lateinit var currentUnitList: List<Unit>
-    private lateinit var currentUnit : Unit
-    private lateinit var convertUnit : Unit
+    private lateinit var fromUnit : Unit
+    private lateinit var toUnit : Unit
 
     // TODO:
-    //   - Create switcher icon and functionality
     //   - Implement category class for default category unit
     //   - Implement more complicated conversions (for temp)
     //   - Add copy button?
@@ -29,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     //   - Switch unit types from String to a list of tags
     //   - Create categories based off of unit tags
     //   - Add tests
-    //   - Add layout for tablets
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +40,13 @@ class MainActivity : AppCompatActivity() {
         categoryAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         categorySpinner.adapter = categoryAdapter
 
-        val unitToConvertAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
-        unitToConvertAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
-        unitToConvertSpinner.adapter = unitToConvertAdapter
+        val fromAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
+        fromAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
+        fromSpinner.adapter = fromAdapter
 
-        val unitToConvertIntoAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
-        unitToConvertIntoAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
-        unitToConvertIntoSpinner.adapter = unitToConvertIntoAdapter
+        val toAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
+        toAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
+        toSpinner.adapter = toAdapter
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
@@ -56,62 +54,76 @@ class MainActivity : AppCompatActivity() {
             ) {
                 currentCategory = Units.categories[position]
                 currentUnitList = Units.unitsFor(currentCategory)
-                currentUnit = currentUnitList.first()
-                convertUnit = currentUnitList.first()
+                fromUnit = currentUnitList.first()
+                toUnit = currentUnitList.first()
 
-                unitToConvertAdapter.clear()
-                unitToConvertAdapter.addAll(currentUnitList)
-                unitToConvertAdapter.notifyDataSetChanged()
-                unitToConvertSpinner.setSelection(0)
+                fromAdapter.clear()
+                fromAdapter.addAll(currentUnitList)
+                fromAdapter.notifyDataSetChanged()
+                fromSpinner.setSelection(0)
 
-                unitToConvertIntoAdapter.clear()
-                unitToConvertIntoAdapter.addAll(currentUnitList)
-                unitToConvertIntoAdapter.notifyDataSetChanged()
-                unitToConvertIntoSpinner.setSelection(0)
+                toAdapter.clear()
+                toAdapter.addAll(currentUnitList)
+                toAdapter.notifyDataSetChanged()
+                toSpinner.setSelection(0)
             }
         }
 
-        unitToConvertSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        fromSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                currentUnit = currentUnitList[position]
-                if (valueToConvert.text.isNotEmpty()) {
-                    convert(valueToConvert.text.toString().toBigDecimal())
+                fromUnit = currentUnitList[position]
+                if (fromValue.text.isNotEmpty()) {
+                    convert(fromValue.text.toString().toBigDecimal())
                 }
             }
         }
 
-        unitToConvertIntoSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        toSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                convertUnit = currentUnitList[position]
-                if (valueToConvert.text.isNotEmpty()) {
-                    convert(valueToConvert.text.toString().toBigDecimal())
+                toUnit = currentUnitList[position]
+                if (fromValue.text.isNotEmpty()) {
+                    convert(fromValue.text.toString().toBigDecimal())
                 }
             }
+        }
+
+        flipButton.setOnClickListener {
+            val holderValue = toValue.text
+            toValue.text = fromValue.text
+            fromValue.setText(holderValue)
+
+            val holderItemPosition = toSpinner.selectedItemPosition
+            toSpinner.setSelection(fromSpinner.selectedItemPosition)
+            fromSpinner.setSelection(holderItemPosition)
+
+            val holderUnit = toUnit
+            toUnit = fromUnit
+            fromUnit = holderUnit
         }
     }
 
     private fun convert(value: BigDecimal) {
         try {
-            valueToConvertInto.text = currentUnit.convert(value, convertUnit).toString()
+            toValue.text = fromUnit.convert(value, toUnit).toString()
         } catch (error: java.lang.ArithmeticException) {
-            Log.e("ERROR", "Couldn't convert $value ${currentUnit.name} to ${convertUnit.name}")
-            valueToConvertInto.text = "NaN"
+            Log.e("ERROR", "Couldn't convert $value ${fromUnit.name} to ${toUnit.name}")
+            toValue.text = "NaN"
         }
     }
 
     private fun setupTextChangedListener() {
-        valueToConvert.addTextChangedListener(object : TextWatcher {
+        fromValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
                 if (value.isNullOrBlank() || value.toString() == ".") {
-                    valueToConvertInto.text = ""
+                    toValue.text = ""
                 } else {
                     convert(value.toString().toBigDecimal())
                 }
