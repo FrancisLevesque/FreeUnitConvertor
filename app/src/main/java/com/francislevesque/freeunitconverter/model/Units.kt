@@ -24,15 +24,15 @@ object Units {
     private val kilometer = Unit("kilometer", "km", "distance", BigDecimal.valueOf(1000.0))
     private val inch = Unit("inch", "in", "distance", BigDecimal.valueOf(0.0254))
     private val foot = Unit("foot", "ft", "distance", BigDecimal.valueOf(0.3048))
-    private val yard = Unit("yard", "yd", "distance", BigDecimal.valueOf(0.91))
-    private val mile = Unit("mile", "mi", "distance", BigDecimal.valueOf(1610.0))
+    private val yard = Unit("yard", "yd", "distance", BigDecimal.valueOf(0.9144))
+    private val mile = Unit("mile", "mi", "distance", BigDecimal.valueOf(1609.344))
     private val fathom = Unit("fathom", "mi", "distance", BigDecimal.valueOf(1.8288))
     private val nautical = Unit("nautical mile", "nmi", "distance", BigDecimal.valueOf(1852.0))
 
     private val distanceUnits = arrayListOf<Unit>(
         nanometer, micrometer, millimeter, centimeter, decimeter, meter, kilometer, inch, foot, yard, mile, fathom, nautical
     )
-    private val distance = Category(distanceUnits, meter)
+    val distance = Category(distanceUnits, meter)
 
 //    private val electricCurrentUnits = arrayListOf<Unit>(
 //        Unit("ampere", "A", "electric current", BigDecimal.valueOf(1.0))
@@ -50,7 +50,7 @@ object Units {
     private val massUnits = arrayListOf<Unit>(
         milligram, gram, kilogram, pound, ounce
     )
-    private val mass = Category(massUnits, gram)
+    val mass = Category(massUnits, gram)
 
     // Need to build out the factor before this can work: https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature
 //    private val temperatureUnits = arrayListOf<Unit>(
@@ -70,7 +70,7 @@ object Units {
     private val timeUnits = arrayListOf<Unit>(
         nanosecond, microsecond, millisecond, second, minute, hour, day, week
     )
-    private val time = Category(timeUnits, second)
+    val time = Category(timeUnits, second)
 
     fun defaultCategory(): String {
         return categories.first()

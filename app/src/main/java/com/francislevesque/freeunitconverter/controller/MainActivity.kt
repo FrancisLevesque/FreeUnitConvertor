@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     //   - Implement more complicated conversions (for temp)
     //   - Switch unit types from String to a list of tags
     //   - Create categories based off of unit tags
-    //   - Add tests
 
     private val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
