@@ -9,19 +9,19 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.francislevesque.freeunitconverter.R
+import com.francislevesque.freeunitconverter.model.Category
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity() {
-    private var currentCategory = Units.categories.first()
-    private lateinit var currentUnitList: List<Unit>
+    private var selectedCategoryName = Units.defaultCategory()
+    private lateinit var currentCategory: Category
     private lateinit var fromUnit : Unit
     private lateinit var toUnit : Unit
 
     // TODO:
-    //   - Implement category class for default category unit
     //   - Implement more complicated conversions (for temp)
     //   - Add copy button?
     //   - Create app icon
@@ -29,14 +29,14 @@ class MainActivity : AppCompatActivity() {
     //   - Create categories based off of unit tags
     //   - Add tests
 
-    val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
+    private val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupTextChangedListener()
 
-        currentUnitList = Units.unitsFor(currentCategory)
+        currentCategory = Units.setCategory(selectedCategoryName)
 
         val categoryAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, Units.categories)
         categorySpinner.adapter = categoryAdapter
@@ -49,25 +49,26 @@ class MainActivity : AppCompatActivity() {
 
         val precisionAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, precisionValues)
         precisionSpinner.adapter = precisionAdapter
+        precisionSpinner.setSelection(3)
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                currentCategory = Units.categories[position]
-                currentUnitList = Units.unitsFor(currentCategory)
-                fromUnit = currentUnitList.first()
-                toUnit = currentUnitList.first()
+                selectedCategoryName = Units.categories[position]
+                currentCategory = Units.setCategory(selectedCategoryName)
+                fromUnit = currentCategory.default
+                toUnit = currentCategory.default
 
                 fromAdapter.clear()
-                fromAdapter.addAll(currentUnitList)
+                fromAdapter.addAll(currentCategory.units)
                 fromAdapter.notifyDataSetChanged()
-                fromSpinner.setSelection(0)
+                fromSpinner.setSelection(currentCategory.defaultIndex())
 
                 toAdapter.clear()
-                toAdapter.addAll(currentUnitList)
+                toAdapter.addAll(currentCategory.units)
                 toAdapter.notifyDataSetChanged()
-                toSpinner.setSelection(0)
+                toSpinner.setSelection(currentCategory.defaultIndex())
             }
         }
 
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                fromUnit = currentUnitList[position]
+                fromUnit = currentCategory.units[position]
                 if (fromValue.text.isNotEmpty()) {
                     convert(fromValue.text.toString().toBigDecimal())
                 }
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                toUnit = currentUnitList[position]
+                toUnit = currentCategory.units[position]
                 if (fromValue.text.isNotEmpty()) {
                     convert(fromValue.text.toString().toBigDecimal())
                 }
@@ -99,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             ) {
                 updateToUnit(fromValue.text)
             }
-
         }
 
         flipButton.setOnClickListener {
@@ -136,16 +136,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTextChangedListener() {
         fromValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
                 updateToUnit(value)
             }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 }
