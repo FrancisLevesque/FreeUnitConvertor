@@ -8,13 +8,12 @@ class Unit(val name: String, private val symbol: String, val type: String, priva
         return "$name ($symbol)"
     }
 
-    private fun convertFromBase(input: BigDecimal): BigDecimal {
-        return input.divide(factor, 19, RoundingMode.HALF_EVEN).stripTrailingZeros()
-//        return input.div(factor).stripTrailingZeros()
+    private fun convertFromBase(input: BigDecimal, precision: Int): BigDecimal {
+        return input.divide(factor, precision, RoundingMode.HALF_EVEN).stripTrailingZeros()
     }
 
-    fun convert(input: BigDecimal, target: Unit): BigDecimal {
+    fun convert(input: BigDecimal, target: Unit, precision: Int): BigDecimal {
         val result = input.multiply(factor)
-        return target.convertFromBase(result)
+        return target.convertFromBase(result, precision)
     }
 }

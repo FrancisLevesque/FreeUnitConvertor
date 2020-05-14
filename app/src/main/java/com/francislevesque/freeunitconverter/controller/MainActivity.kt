@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     //   - Create categories based off of unit tags
     //   - Add tests
 
+    val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,16 +39,16 @@ class MainActivity : AppCompatActivity() {
         currentUnitList = Units.unitsFor(currentCategory)
 
         val categoryAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, Units.categories)
-        categoryAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         categorySpinner.adapter = categoryAdapter
 
         val fromAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
-        fromAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         fromSpinner.adapter = fromAdapter
 
         val toAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
-        toAdapter.setDropDownViewResource(R.layout.unit_spinner_item)
         toSpinner.adapter = toAdapter
+
+        val precisionAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, precisionValues)
+        precisionSpinner.adapter = precisionAdapter
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
@@ -91,6 +93,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        precisionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?){}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                updateToUnit(fromValue.text)
+            }
+
+        }
+
         flipButton.setOnClickListener {
             val holderValue = toValue.text
             toValue.text = fromValue.text
@@ -108,10 +119,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun convert(value: BigDecimal) {
         try {
-            toValue.text = fromUnit.convert(value, toUnit).toString()
+            toValue.text = fromUnit.convert(value, toUnit, precisionSpinner.selectedItem as Int).toString()
         } catch (error: java.lang.ArithmeticException) {
             Log.e("ERROR", "Couldn't convert $value ${fromUnit.name} to ${toUnit.name}")
             toValue.text = "NaN"
+        }
+    }
+
+    private fun updateToUnit(value: CharSequence?) {
+        if (value.isNullOrBlank() || value.toString() == ".") {
+            toValue.text = ""
+        } else {
+            convert(value.toString().toBigDecimal())
         }
     }
 
@@ -122,11 +141,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
-                if (value.isNullOrBlank() || value.toString() == ".") {
-                    toValue.text = ""
-                } else {
-                    convert(value.toString().toBigDecimal())
-                }
+                updateToUnit(value)
             }
 
             override fun afterTextChanged(s: Editable?) {
