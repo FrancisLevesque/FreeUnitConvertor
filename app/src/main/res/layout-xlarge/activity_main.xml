@@ -75,6 +75,19 @@
         app:layout_constraintTop_toBottomOf="@+id/fromValue" />
 
     <ImageButton
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@android:color/transparent"
+        android:onClick="clearButtonClicked"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/fromValue"
+        app:layout_constraintStart_toEndOf="@+id/fromValue"
+        app:layout_constraintTop_toTopOf="@+id/fromValue"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <ImageButton
         android:id="@+id/flipButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -116,6 +129,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/toValue"
         app:layout_constraintTop_toBottomOf="@+id/toValue" />
+
+    <ImageButton
+        android:id="@+id/copyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@android:color/transparent"
+        android:onClick="copyButtonClicked"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/toValue"
+        app:layout_constraintStart_toEndOf="@+id/toValue"
+        app:layout_constraintTop_toTopOf="@+id/toValue"
+        app:srcCompat="?attr/actionModeCopyDrawable" />
 
     <TextView
         android:id="@+id/textView2"

@@ -1,6 +1,9 @@
 package com.francislevesque.freeunitconverter.controller
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +11,15 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Category
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigDecimal
+
 
 class MainActivity : AppCompatActivity() {
     private var selectedCategoryName = Units.defaultCategory()
@@ -23,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     // TODO:
     //   - Implement more complicated conversions (for temp)
-    //   - Add copy button?
     //   - Switch unit types from String to a list of tags
     //   - Create categories based off of unit tags
     //   - Add tests
@@ -139,7 +144,29 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(value: CharSequence?, start: Int, before: Int, count: Int) {
                 updateToUnit(value)
             }
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (fromValue.text.isNullOrBlank()){
+                    clearButton.visibility = View.INVISIBLE
+                } else {
+                    clearButton.visibility = View.VISIBLE
+                }
+                if (toValue.text.isNullOrBlank()){
+                    copyButton.visibility = View.INVISIBLE
+                } else {
+                    copyButton.visibility = View.VISIBLE
+                }
+            }
         })
+    }
+
+    fun clearButtonClicked(view: View) {
+        fromValue.setText("")
+    }
+
+    fun copyButtonClicked(view: View) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("Converted Value", toValue.text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(this, "Value copied to clipboard!", Toast.LENGTH_SHORT).show()
     }
 }
