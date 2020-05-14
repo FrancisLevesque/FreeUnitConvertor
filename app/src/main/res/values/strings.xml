@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FreeUnitConverter</string>
+    <string name="app_name">Free Unit Converter</string>
     <string name="title">Free Unit Converter</string>
     <string name="select_a_unit">select a unit</string>
     <string name="enter_a_value">enter a value</string>

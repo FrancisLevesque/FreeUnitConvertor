@@ -3,7 +3,7 @@ package com.francislevesque.freeunitconverter.model
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class Unit(val name: String, private val symbol: String, val type: String, private val factor: BigDecimal) {
+class Unit(val name: String, private val symbol: String, val tags: ArrayList<String>, private val factor: BigDecimal) {
     override fun toString(): String {
         return "$name ($symbol)"
     }

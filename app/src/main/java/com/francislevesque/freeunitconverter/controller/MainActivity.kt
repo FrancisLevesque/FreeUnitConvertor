@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     // TODO:
     //   - Implement more complicated conversions (for temp)
-    //   - Switch unit types from String to a list of tags
-    //   - Create categories based off of unit tags
+    //   - Change precision spinner to some better UI thing
+    //   - Add more units
 
     private val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 selectedCategoryName = Units.categories[position]
                 currentCategory = Units.setCategory(selectedCategoryName)
-                fromUnit = currentCategory.default
-                toUnit = currentCategory.default
+                fromUnit = currentCategory.getDefaultUnit()
+                toUnit = currentCategory.getDefaultUnit()
 
                 fromAdapter.clear()
                 fromAdapter.addAll(currentCategory.units)
