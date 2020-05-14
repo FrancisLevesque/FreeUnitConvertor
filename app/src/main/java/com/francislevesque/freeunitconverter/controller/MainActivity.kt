@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     // TODO:
     //   - Implement more complicated conversions (for temp)
     //   - Add copy button?
-    //   - Create app icon
     //   - Switch unit types from String to a list of tags
     //   - Create categories based off of unit tags
     //   - Add tests
