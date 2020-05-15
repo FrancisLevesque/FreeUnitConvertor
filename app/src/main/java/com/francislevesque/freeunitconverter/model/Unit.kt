@@ -1,19 +1,18 @@
 package com.francislevesque.freeunitconverter.model
 
 import java.math.BigDecimal
-import java.math.RoundingMode
 
-class Unit(val name: String, private val symbol: String, val tags: ArrayList<String>, private val factor: BigDecimal) {
+class Unit(val name: String, private val symbol: String, val tags: ArrayList<String>, private val converter: FactorConverter) {
     override fun toString(): String {
         return "$name ($symbol)"
     }
 
     private fun convertFromBase(input: BigDecimal, precision: Int): BigDecimal {
-        return input.divide(factor, precision, RoundingMode.HALF_EVEN).stripTrailingZeros()
+        return converter.fromBase(input, precision)
     }
 
     fun convert(input: BigDecimal, target: Unit, precision: Int): BigDecimal {
-        val result = input.multiply(factor)
+        val result = converter.toBase(input, precision)
         return target.convertFromBase(result, precision)
     }
 }

@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toUnit : Unit
 
     // TODO:
-    //   - Implement more complicated conversions (for temp)
     //   - Add more units
+    //   - Add more tests
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun convert(value: BigDecimal) {
         try {
-            toValue.text = fromUnit.convert(value, toUnit, precisionSlider.progress as Int).toString()
+            toValue.text = fromUnit.convert(value, toUnit, precisionSlider.progress).toString()
         } catch (error: java.lang.ArithmeticException) {
             Log.e("ERROR", "Couldn't convert $value ${fromUnit.name} to ${toUnit.name}")
             toValue.text = "NaN"
