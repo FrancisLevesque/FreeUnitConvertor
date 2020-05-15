@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.francislevesque.freeunitconverter.R
@@ -29,10 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     // TODO:
     //   - Implement more complicated conversions (for temp)
-    //   - Change precision spinner to some better UI thing
     //   - Add more units
-
-    private val precisionValues = arrayListOf<Int>(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +48,15 @@ class MainActivity : AppCompatActivity() {
         val toAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
         toSpinner.adapter = toAdapter
 
-        val precisionAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, precisionValues)
-        precisionSpinner.adapter = precisionAdapter
-        precisionSpinner.setSelection(3)
+        val precisionSlider = findViewById<SeekBar>(R.id.precisionSlider)
+        precisionSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                precisionValue.text = precisionSlider.progress.toString()
+                updateToUnit(fromValue.text)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?){}
@@ -97,14 +101,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        precisionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?){}
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                updateToUnit(fromValue.text)
-            }
-        }
-
         flipButton.setOnClickListener {
             val holderValue = toValue.text
             toValue.text = fromValue.text
@@ -122,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun convert(value: BigDecimal) {
         try {
-            toValue.text = fromUnit.convert(value, toUnit, precisionSpinner.selectedItem as Int).toString()
+            toValue.text = fromUnit.convert(value, toUnit, precisionSlider.progress as Int).toString()
         } catch (error: java.lang.ArithmeticException) {
             Log.e("ERROR", "Couldn't convert $value ${fromUnit.name} to ${toUnit.name}")
             toValue.text = "NaN"
