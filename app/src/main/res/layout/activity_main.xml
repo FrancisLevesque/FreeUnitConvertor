@@ -33,43 +33,76 @@
         app:layout_constraintStart_toStartOf="@+id/mainTitle"
         app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
-    <Spinner
-        android:id="@+id/categorySpinner"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:background="@color/colorArea"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/textView">
 
-    <EditText
-        android:id="@+id/fromValue"
-        android:layout_width="250dp"
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fromValueContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:fontFamily="sans-serif-light"
-        android:hint="@string/enter_a_value"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorPrimary"
+        android:background="@color/colorArea"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/mainTitle" >
 
-    <Spinner
-        android:id="@+id/fromSpinner"
-        android:layout_width="0dp"
+        <EditText
+            android:id="@+id/fromValue"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/enter_a_value"
+            android:inputType="numberDecimal"
+            android:paddingLeft="8dp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fromSpinnerContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:completionThreshold="1"
-        android:hint="@string/select_a_unit"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/fromValue"
+        android:background="@color/colorArea"
+        app:layout_constraintEnd_toEndOf="@+id/fromValueContainer"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/fromValue"
-        app:layout_constraintTop_toBottomOf="@+id/fromValue" />
+        app:layout_constraintStart_toStartOf="@+id/fromValueContainer"
+        app:layout_constraintTop_toBottomOf="@+id/fromValueContainer">
+        <Spinner
+            android:id="@+id/fromSpinner"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:hint="@string/select_a_unit"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/clearButton"
@@ -79,52 +112,76 @@
         android:background="@android:color/transparent"
         android:onClick="clearButtonClicked"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/fromValue"
-        app:layout_constraintStart_toEndOf="@+id/fromValue"
-        app:layout_constraintTop_toTopOf="@+id/fromValue"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:layout_constraintBottom_toBottomOf="@+id/fromValueContainer"
+        app:layout_constraintStart_toEndOf="@+id/fromValueContainer"
+        app:layout_constraintTop_toTopOf="@+id/fromValueContainer"
+        app:srcCompat="@drawable/ic_close" />
 
     <ImageButton
         android:id="@+id/flipButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fromSpinnerContainer"
+        app:srcCompat="@drawable/ic_swap_vert" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toValueContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="@android:color/transparent"
-        android:onClick="flipButtonClicked"
+        android:background="@color/colorArea"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromSpinner"
-        app:srcCompat="@android:drawable/ic_popup_sync" />
+        app:layout_constraintTop_toBottomOf="@+id/flipButton">
 
-    <TextView
-        android:id="@+id/toValue"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-light"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flipButton" />
+        <TextView
+            android:id="@+id/toValue"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:inputType="numberDecimal"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Spinner
-        android:id="@+id/toSpinner"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:completionThreshold="1"
-        android:hint="@string/select_a_unit"
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/toValue"
+        android:background="@color/colorArea"
+        app:layout_constraintEnd_toEndOf="@+id/toValueContainer"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/toValue"
-        app:layout_constraintTop_toBottomOf="@+id/toValue" />
+        app:layout_constraintStart_toStartOf="@+id/toValueContainer"
+        app:layout_constraintTop_toBottomOf="@+id/toValueContainer">
+
+        <Spinner
+            android:id="@+id/toSpinner"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:hint="@string/select_a_unit"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/copyButton"
@@ -134,10 +191,10 @@
         android:background="@android:color/transparent"
         android:onClick="copyButtonClicked"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/toValue"
-        app:layout_constraintStart_toEndOf="@+id/toValue"
-        app:layout_constraintTop_toTopOf="@+id/toValue"
-        app:srcCompat="?attr/actionModeCopyDrawable" />
+        app:layout_constraintBottom_toBottomOf="@+id/toValueContainer"
+        app:layout_constraintStart_toEndOf="@+id/toValueContainer"
+        app:layout_constraintTop_toTopOf="@+id/toValueContainer"
+        app:srcCompat="@drawable/ic_file_copy" />
 
     <TextView
         android:id="@+id/textView2"

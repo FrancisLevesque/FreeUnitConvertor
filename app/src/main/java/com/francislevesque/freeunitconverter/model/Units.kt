@@ -52,8 +52,13 @@ object Units {
         Unit("milligram", "mg", arrayListOf("mass", "weight"), milliConverter),
         Unit("gram", "g", arrayListOf("mass", "weight", "cooking"), gramConverter),
         Unit("kilogram", "kg", arrayListOf("mass", "weight"), kiloConverter),
+        Unit("metric ton", "t", arrayListOf("mass", "weight"), megaConverter),
         Unit("ounce", "oz", arrayListOf("mass", "cooking"), ounceConverter),
         Unit("pound", "lb", arrayListOf("mass"), poundConverter),
+        // TEMPERATURE
+        Unit("kelvin", "K", arrayListOf("temperature"), kelvinConverter),
+        Unit("celsius", "°C", arrayListOf("temperature"), baseConverter),
+        Unit("fahrenheit", "°F", arrayListOf("temperature"), FahrenheitConverter()),
         // TIME
         Unit("nanosecond", "ns", arrayListOf("time"), nanoConverter),
         Unit("microsecond", "μs", arrayListOf("time"), microConverter),
@@ -63,22 +68,19 @@ object Units {
         Unit("hour", "h", arrayListOf("time"), hourConverter),
         Unit("day", "d", arrayListOf("time"), dayConverter),
         Unit("week", "w", arrayListOf("time"), weekConverter),
-        // TEMPERATURE
-        Unit("kelvin", "K", arrayListOf("temperature"), kelvinConverter),
-        Unit("celsius", "°C", arrayListOf("temperature"), baseConverter),
-        Unit("fahrenheit", "°F", arrayListOf("temperature"), FahrenheitConverter()),
         // EMPTY (for the error case)
         Unit("n/a", "n/a", arrayListOf("n/a"), baseConverter)
     )
 
+    val cooking = Category(allUnits, "cooking", "gram")
     val distance = Category(allUnits, "distance", "meter")
     val mass = Category(allUnits, "mass", "gram")
-    val time = Category(allUnits, "time", "second")
     val temperature = Category(allUnits, "temperature", "celsius")
+    val time = Category(allUnits, "time", "second")
 
     val categories = listOf(
+        cooking.tag,
         distance.tag,
-//        "cooking", Create this categories based on tags from other categories
 //        "electric current",
 //        "luminous intensity",
         mass.tag,
@@ -95,13 +97,13 @@ object Units {
 //        Unit("candela", "cd", "luminous intensity", BigDecimal.valueOf(1.0))
 //    )
 
-
     fun defaultCategory(): String {
         return categories.first()
     }
 
     fun setCategory(category: String): Category {
         return when(category) {
+            "cooking" -> cooking
             "distance" -> distance
 //            "electric current" -> electricCurrentUnits
 //            "luminous intensity" -> luminousIntensityUnits

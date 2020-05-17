@@ -1,6 +1,5 @@
 package com.francislevesque.freeunitconverter.controller
 
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,12 +7,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SeekBar
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Category
 import com.francislevesque.freeunitconverter.model.Unit
@@ -29,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toUnit : Unit
 
     // TODO:
+    //   - Update xlarge layout
     //   - Add more units
     //   - Add more tests
 
@@ -162,6 +162,34 @@ class MainActivity : AppCompatActivity() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip: ClipData = ClipData.newPlainText("Converted Value", toValue.text)
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(this, "Value copied to clipboard!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Value copied to clipboard", Toast.LENGTH_SHORT).show()
     }
+
+    private fun hideKeyboard() {
+        currentFocus?.let {
+            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        val view = currentFocus
+        if (view != null) {
+            if (event != null && (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_MOVE)
+                && view is EditText &&
+                !view::class.simpleName?.startsWith("android.webkit.")!!
+            ) {
+                val coordinates = IntArray(2)
+                view.getLocationOnScreen(coordinates)
+                val x: Float = event!!.rawX + view.left - coordinates[0]
+                val y: Float = event!!.rawY + view.top - coordinates[1]
+
+                if (x < view.left || x > view.right || y < view.top || y > view.bottom) {
+                    hideKeyboard()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
 }
