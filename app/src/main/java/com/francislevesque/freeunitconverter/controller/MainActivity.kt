@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
     // TODO:
     //   - Update xlarge layout
     //   - Add more units
+    //     - gigabyte/bit...
     //   - Add more tests
+    //   - Add climbing grade conversions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
