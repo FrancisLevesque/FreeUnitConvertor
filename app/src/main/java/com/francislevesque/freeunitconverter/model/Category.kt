@@ -1,19 +1,26 @@
 package com.francislevesque.freeunitconverter.model
 
-class Category(var units: ArrayList<com.francislevesque.freeunitconverter.model.Unit>, val tag: String, val default: String) {
+import java.util.*
+import kotlin.collections.ArrayList
+
+class Category(var units: ArrayList<Unit>, val tag: String, private val default: String) {
     init {
         units = units.filter { it.tags.contains(tag) } as ArrayList<Unit>
     }
 
-    fun getUnit(name: String): com.francislevesque.freeunitconverter.model.Unit {
-        return units.first { it.name.toLowerCase() == name.toLowerCase() }
+    fun getUnit(name: String): Unit {
+        return units.first { it.name.toLowerCase(Locale.getDefault()) == name.toLowerCase(Locale.getDefault()) }
     }
 
-    fun getDefaultUnit(): com.francislevesque.freeunitconverter.model.Unit {
-        return units.first { it.name.toLowerCase() == default.toLowerCase() }
+    fun getDefaultUnit(): Unit {
+        return units.first { it.name.toLowerCase(Locale.getDefault()) == default.toLowerCase(Locale.getDefault()) }
     }
 
     fun defaultIndex(): Int {
         return units.indexOf(getUnit(default))
+    }
+
+    override fun toString(): String {
+        return tag
     }
 }

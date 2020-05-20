@@ -119,12 +119,12 @@ object Units {
     val volume = Category(allUnits, "Volume", "Liter")
 
     val categories = listOf(
-        cooking.tag,
-        distance.tag,
-        mass.tag,
-        temperature.tag,
-        time.tag,
-        volume.tag
+        cooking.toString(),
+        distance.toString(),
+        mass.toString(),
+        temperature.toString(),
+        time.toString(),
+        volume.toString()
     )
 
     fun defaultCategory(): String {

@@ -3,6 +3,7 @@ package com.francislevesque.freeunitconverter.controller
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,8 +18,11 @@ import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Category
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
+import com.francislevesque.freeunitconverter.utilites.SharedPrefs
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigDecimal
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,16 +37,19 @@ class MainActivity : AppCompatActivity() {
     //     - gigabyte/bit...
     //   - Add more tests
     //   - Add climbing grade conversions
+    //   - Fix farentheit to celcius
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupTextChangedListener()
 
-        currentCategory = Units.setCategory(selectedCategoryName)
+        currentCategory = Units.setCategory(App.prefs.lastUsedCategory)
 
         val categoryAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, Units.categories)
         categorySpinner.adapter = categoryAdapter
+        val position = Units.categories.indexOf(currentCategory.toString())
+        categorySpinner.setSelection(position)
 
         val fromAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
         fromSpinner.adapter = fromAdapter
@@ -64,8 +71,8 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                selectedCategoryName = Units.categories[position]
-                currentCategory = Units.setCategory(selectedCategoryName)
+                App.prefs.lastUsedCategory = Units.categories[position]
+                currentCategory = Units.setCategory(Units.categories[position])
                 fromUnit = currentCategory.getDefaultUnit()
                 toUnit = currentCategory.getDefaultUnit()
 
@@ -183,8 +190,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val coordinates = IntArray(2)
                 view.getLocationOnScreen(coordinates)
-                val x: Float = event!!.rawX + view.left - coordinates[0]
-                val y: Float = event!!.rawY + view.top - coordinates[1]
+                val x: Float = event.rawX + view.left - coordinates[0]
+                val y: Float = event.rawY + view.top - coordinates[1]
 
                 if (x < view.left || x > view.right || y < view.top || y > view.bottom) {
                     hideKeyboard()
