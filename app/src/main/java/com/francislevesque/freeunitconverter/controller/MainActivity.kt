@@ -3,7 +3,6 @@ package com.francislevesque.freeunitconverter.controller
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,21 +17,17 @@ import com.francislevesque.freeunitconverter.R
 import com.francislevesque.freeunitconverter.model.Category
 import com.francislevesque.freeunitconverter.model.Unit
 import com.francislevesque.freeunitconverter.model.Units
-import com.francislevesque.freeunitconverter.utilites.SharedPrefs
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigDecimal
-import java.util.*
 import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
-    private var selectedCategoryName = Units.defaultCategory()
     private lateinit var currentCategory: Category
     private lateinit var fromUnit : Unit
     private lateinit var toUnit : Unit
 
     // TODO:
-    //   - Update xlarge layout
     //   - Add more units
     //     - gigabyte/bit...
     //   - Add more tests
@@ -44,8 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setupTextChangedListener()
 
-        currentCategory = Units.setCategory(App.prefs.lastUsedCategory)
-
+        currentCategory = Units.getCategoryFromName(App.prefs.lastUsedCategory)
         val categoryAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, Units.categories)
         categorySpinner.adapter = categoryAdapter
         val position = Units.categories.indexOf(currentCategory.toString())
@@ -53,9 +47,19 @@ class MainActivity : AppCompatActivity() {
 
         val fromAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
         fromSpinner.adapter = fromAdapter
+        fromUnit = currentCategory.getUnit(App.prefs.fromUnit)
+        if (!currentCategory.contains(fromUnit)) {
+            setFromUnit(currentCategory.getDefaultUnit())
+        }
+        fromSpinner.setSelection(currentCategory.getIndex(fromUnit))
 
         val toAdapter = ArrayAdapter(this, R.layout.unit_spinner_item, ArrayList<Unit>())
         toSpinner.adapter = toAdapter
+        toUnit = currentCategory.getUnit(App.prefs.toUnit)
+        if (!currentCategory.contains(toUnit)) {
+            setToUnit(currentCategory.getDefaultUnit())
+        }
+        toSpinner.setSelection(currentCategory.getIndex(toUnit))
 
         val precisionSlider = findViewById<SeekBar>(R.id.precisionSlider)
         precisionSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -71,20 +75,25 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                App.prefs.lastUsedCategory = Units.categories[position]
-                currentCategory = Units.setCategory(Units.categories[position])
-                fromUnit = currentCategory.getDefaultUnit()
-                toUnit = currentCategory.getDefaultUnit()
-
+                if(App.prefs.lastUsedCategory == Units.categories[position]) {
+                    fromUnit = currentCategory.getUnit(App.prefs.fromUnit)
+                    toUnit = currentCategory.getUnit(App.prefs.toUnit)
+                } else {
+                    val selection = Units.categories[position]
+                    App.prefs.lastUsedCategory = selection
+                    currentCategory = Units.getCategoryFromName(selection)
+                    setFromUnit(currentCategory.getDefaultUnit())
+                    setToUnit(currentCategory.getDefaultUnit())
+                }
                 fromAdapter.clear()
                 fromAdapter.addAll(currentCategory.units)
                 fromAdapter.notifyDataSetChanged()
-                fromSpinner.setSelection(currentCategory.defaultIndex())
+                fromSpinner.setSelection(currentCategory.getIndex(fromUnit))
 
                 toAdapter.clear()
                 toAdapter.addAll(currentCategory.units)
                 toAdapter.notifyDataSetChanged()
-                toSpinner.setSelection(currentCategory.defaultIndex())
+                toSpinner.setSelection(currentCategory.getIndex(toUnit))
             }
         }
 
@@ -92,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                fromUnit = currentCategory.units[position]
+                setFromUnit(currentCategory.units[position])
                 if (fromValue.text.isNotEmpty()) {
                     convert(fromValue.text.toString().toBigDecimal())
                 }
@@ -103,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?){}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                toUnit = currentCategory.units[position]
+                setToUnit(currentCategory.units[position])
                 if (fromValue.text.isNotEmpty()) {
                     convert(fromValue.text.toString().toBigDecimal())
                 }
@@ -125,9 +134,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setFromUnit(unit: Unit) {
+        fromUnit = unit
+        App.prefs.fromUnit = fromUnit.name
+    }
+
+    private fun setToUnit(unit: Unit) {
+        toUnit = unit
+        App.prefs.toUnit = toUnit.name
+    }
+
     private fun convert(value: BigDecimal) {
         try {
-            toValue.text = fromUnit.convert(value, toUnit, precisionSlider.progress).toString()
+            toValue.text = fromUnit.convert(value, toUnit, precisionSlider.progress).toPlainString()
         } catch (error: java.lang.ArithmeticException) {
             Log.e("ERROR", "Couldn't convert $value ${fromUnit.name} to ${toUnit.name}")
             toValue.text = "NaN"

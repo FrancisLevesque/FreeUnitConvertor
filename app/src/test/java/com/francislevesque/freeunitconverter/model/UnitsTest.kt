@@ -72,8 +72,8 @@ internal class UnitsTest {
 
     @org.junit.jupiter.api.Test
     fun setCategory() {
-        assertEquals(Units.distance, Units.setCategory("Distance"))
-        assertEquals(Units.mass, Units.setCategory("Mass"))
-        assertEquals(Units.time, Units.setCategory("Time"))
+        assertEquals(Units.distance, Units.getCategoryFromName("Distance"))
+        assertEquals(Units.mass, Units.getCategoryFromName("Mass"))
+        assertEquals(Units.time, Units.getCategoryFromName("Time"))
     }
 }

@@ -11,4 +11,4 @@
     android:paddingRight="8dp"
     android:paddingBottom="8dp"
     android:singleLine="true"
-    android:textSize="24sp" />
+    android:textSize="26sp" />

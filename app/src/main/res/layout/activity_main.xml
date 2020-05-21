@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -54,7 +53,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fromValueContainer"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:background="@color/colorArea"
@@ -65,7 +64,7 @@
 
         <EditText
             android:id="@+id/fromValue"
-            android:layout_width="250dp"
+            android:layout_width="266dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:hint="@string/enter_a_value"
@@ -73,9 +72,22 @@
             android:paddingLeft="8dp"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/clearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:onClick="clearButtonClicked"
+            android:visibility="invisible"
+            android:contentDescription="@string/clear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -91,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/fromValueContainer">
         <Spinner
             android:id="@+id/fromSpinner"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="@string/select_a_unit"
@@ -105,25 +117,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:id="@+id/clearButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@android:color/transparent"
-        android:onClick="clearButtonClicked"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/fromValueContainer"
-        app:layout_constraintStart_toEndOf="@+id/fromValueContainer"
-        app:layout_constraintTop_toTopOf="@+id/fromValueContainer"
-        app:srcCompat="@drawable/ic_close" />
-
-    <ImageButton
         android:id="@+id/flipButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
+        android:contentDescription="@string/swap_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,10 +132,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toValueContainer"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="@color/colorArea"
+        android:background="@color/colorAreaDisabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,19 +143,31 @@
 
         <TextView
             android:id="@+id/toValue"
-            android:layout_width="250dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:inputType="numberDecimal"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/copyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:onClick="copyButtonClicked"
+            android:visibility="invisible"
+            android:contentDescription="@string/copy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_file_copy" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,7 +182,7 @@
 
         <Spinner
             android:id="@+id/toSpinner"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="@string/select_a_unit"
@@ -183,26 +195,13 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageButton
-        android:id="@+id/copyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@android:color/transparent"
-        android:onClick="copyButtonClicked"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/toValueContainer"
-        app:layout_constraintStart_toEndOf="@+id/toValueContainer"
-        app:layout_constraintTop_toTopOf="@+id/toValueContainer"
-        app:srcCompat="@drawable/ic_file_copy" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Current Precision:"
+        android:text="@string/current_precision"
         app:layout_constraintBottom_toTopOf="@+id/precisionSlider"
         app:layout_constraintStart_toStartOf="@+id/textView" />
 
@@ -211,7 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="5"
+        android:text="@string/default_precision"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
@@ -219,8 +218,8 @@
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <SeekBar
-        android:id="@+id/precisionSlider"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:id="@+id/precisionSlider"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"

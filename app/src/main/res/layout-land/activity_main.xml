@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -10,12 +10,12 @@
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/title"
         android:textColor="#C0C0C0"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -26,22 +26,22 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="@string/category"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/mainTitle"
-        app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/colorArea"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mainTitle">
 
         <Spinner
             android:id="@+id/categorySpinner"
@@ -55,9 +55,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fromValueContainer"
-        android:layout_width="500dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorArea"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -66,30 +66,29 @@
 
         <EditText
             android:id="@+id/fromValue"
-            android:layout_width="440dp"
+            android:layout_width="266dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:hint="@string/enter_a_value"
             android:inputType="numberDecimal"
             android:paddingLeft="8dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="30sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/clearButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/clear"
             android:onClick="clearButtonClicked"
-            android:scaleType="fitCenter"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fromValue"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -99,16 +98,15 @@
         android:id="@+id/fromSpinnerContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorArea"
         app:layout_constraintEnd_toEndOf="@+id/fromValueContainer"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/fromValueContainer"
         app:layout_constraintTop_toBottomOf="@+id/fromValueContainer">
-
         <Spinner
             android:id="@+id/fromSpinner"
-            android:layout_width="500dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="@string/select_a_unit"
@@ -123,9 +121,9 @@
 
     <ImageButton
         android:id="@+id/flipButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/swap_arrow"
         android:scaleType="fitCenter"
@@ -137,9 +135,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toValueContainer"
-        android:layout_width="500dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="12dp"
         android:background="@color/colorAreaDisabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -148,30 +146,29 @@
 
         <TextView
             android:id="@+id/toValue"
-            android:layout_width="440dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:textColor="@color/colorAccent"
-            android:textSize="30sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/copyButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/copy"
             android:onClick="copyButtonClicked"
-            android:scaleType="fitCenter"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/toValue"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_file_copy" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -179,7 +176,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorArea"
         app:layout_constraintEnd_toEndOf="@+id/toValueContainer"
         app:layout_constraintHorizontal_bias="0.5"
@@ -188,7 +185,7 @@
 
         <Spinner
             android:id="@+id/toSpinner"
-            android:layout_width="500dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="@string/select_a_unit"
@@ -205,12 +202,12 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="@string/current_precision"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/precisionSlider"
-        app:layout_constraintStart_toStartOf="@+id/textView" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mainTitle" />
 
     <TextView
         android:id="@+id/precisionValue"
@@ -218,7 +215,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/default_precision"
-        android:textSize="26sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -229,9 +226,6 @@
         android:id="@+id/precisionSlider"
         android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
         android:max="17"
         android:progress="5"
         app:layout_constraintBottom_toBottomOf="parent"

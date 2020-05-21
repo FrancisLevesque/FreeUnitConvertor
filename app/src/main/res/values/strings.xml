@@ -5,4 +5,9 @@
     <string name="enter_a_value">enter a value</string>
     <string name="category">Category:</string>
     <string name="precision">Precision:</string>
+    <string name="current_precision">Current Precision:</string>
+    <string name="default_precision">5</string>
+    <string name="swap_arrow">Swap Arrow</string>
+    <string name="clear">Clear</string>
+    <string name="copy">Copy</string>
 </resources>

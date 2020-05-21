@@ -16,8 +16,16 @@ class Category(var units: ArrayList<Unit>, val tag: String, private val default:
         return units.first { it.name.toLowerCase(Locale.getDefault()) == default.toLowerCase(Locale.getDefault()) }
     }
 
-    fun defaultIndex(): Int {
+    fun getIndex(unit: Unit): Int {
+        return units.indexOf(unit)
+    }
+
+    fun getDefaultIndex(): Int {
         return units.indexOf(getUnit(default))
+    }
+
+    fun contains(unit: Unit): Boolean {
+        return units.contains(unit)
     }
 
     override fun toString(): String {

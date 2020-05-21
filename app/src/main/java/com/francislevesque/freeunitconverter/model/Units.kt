@@ -79,19 +79,19 @@ object Units {
         Unit("Metric Cup", "c", arrayListOf("Cooking"), cupConverter),
         Unit("US Cup", "C", arrayListOf("Cooking"), usCupConverter),
         // VOLUME
-        Unit("Milliliter", "ml", arrayListOf("Volume", "Cooking"), milliConverter),
-        Unit("Centiliter", "cl", arrayListOf("Volume", "Cooking"), centiConverter),
-        Unit("Deciliter", "dl", arrayListOf("Volume", "Cooking"), deciConverter),
-        Unit("Liter", "l", arrayListOf("Volume", "Cooking"), baseConverter),
+        Unit("Milliliter", "ml", arrayListOf("Volume"), milliConverter),
+        Unit("Centiliter", "cl", arrayListOf("Volume"), centiConverter),
+        Unit("Deciliter", "dl", arrayListOf("Volume"), deciConverter),
+        Unit("Liter", "l", arrayListOf("Volume"), baseConverter),
         Unit("Cubic Meter", "m3", arrayListOf("Volume"), kiloConverter),
         Unit("Cubic Inch", "in3", arrayListOf("Volume"), cubicInchConverter),
         Unit("Cubic Foot", "ft3", arrayListOf("Volume"), cubicFootConverter),
-        Unit("Fluid Ounce", "fl oz", arrayListOf("Volume", "Cooking"), fluidOunceConverter),
-        Unit("Pint", "p", arrayListOf("Volume", "Cooking"), pintConverter),
-        Unit("US Pint", "pt", arrayListOf("Volume", "Cooking"), usPintConverter),
-        Unit("Imperial Pint", "pt", arrayListOf("Volume", "Cooking"), imperialPintConverter),
-        Unit("Quart", "qt", arrayListOf("Volume", "Cooking"), quartConverter),
-        Unit("US Gallon", "gal", arrayListOf("Volume", "Cooking"), usGallonConverter),
+        Unit("Fluid Ounce", "fl oz", arrayListOf("Volume"), fluidOunceConverter),
+        Unit("Pint", "p", arrayListOf("Volume"), pintConverter),
+        Unit("US Pint", "pt", arrayListOf("Volume"), usPintConverter),
+        Unit("Imperial Pint", "pt", arrayListOf("Volume"), imperialPintConverter),
+        Unit("Quart", "qt", arrayListOf("Volume"), quartConverter),
+        Unit("US Gallon", "gal", arrayListOf("Volume"), usGallonConverter),
         // TEMPERATURE
         Unit("Kelvin", "K", arrayListOf("Temperature"), kelvinConverter),
         Unit("Celsius", "°C", arrayListOf("Temperature"), baseConverter),
@@ -111,6 +111,8 @@ object Units {
         Unit("N/A", "N/A", arrayListOf("N/A"), baseConverter)
     )
 
+    // WARNING: When creating SHARED categories they MUST have the SAME base unit!!
+    //          Ex: cooking and mass both use Gram
     val cooking = Category(allUnits, "Cooking", "Gram")
     val distance = Category(allUnits, "Distance", "Meter")
     val mass = Category(allUnits, "Mass", "Gram")
@@ -131,7 +133,7 @@ object Units {
         return categories.first()
     }
 
-    fun setCategory(category: String): Category {
+    fun getCategoryFromName(category: String): Category {
         return when(category) {
             "Cooking" -> cooking
             "Distance" -> distance
