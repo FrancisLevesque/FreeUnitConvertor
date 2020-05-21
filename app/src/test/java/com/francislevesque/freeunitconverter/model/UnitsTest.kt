@@ -5,6 +5,58 @@ import java.math.BigDecimal
 
 internal class UnitsTest {
     @org.junit.jupiter.api.Test
+    fun area_squareMeterToSquareKilometer() {
+        val squareMeter = Units.area.getUnit("Square meter")
+        val squareKilometer = Units.area.getUnit("Square kilometer")
+        val result = squareMeter.convert(BigDecimal.valueOf(-23497.74), squareKilometer, 8)
+        assertEquals(-0.02349774, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun computing_byteToKibibit() {
+        val byte = Units.computing.getUnit("Byte")
+        val kibibit = Units.computing.getUnit("Kibibit")
+        val result = byte.convert(BigDecimal.valueOf(39845), kibibit, 5)
+        assertEquals(311.28906, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun computing_petabyteToByte() {
+        val petabyte = Units.computing.getUnit("Petabyte")
+        val byte = Units.computing.getUnit("Byte")
+        val result = petabyte.convert(BigDecimal.valueOf(0.0056), byte, 2)
+        assertEquals(5600000000000.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun computing_tebibitToMillimeter() {
+        val tebibit = Units.computing.getUnit("Tebibit")
+        val gigabyte = Units.computing.getUnit("Gigabyte")
+        val result = tebibit.convert(BigDecimal.valueOf(12.457), gigabyte, 5)
+        assertEquals(1712.07704, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun dataTransferRate_bytePerSecondToKibibitPerSecond() {
+        val bytePerSecond = Units.dataTransferRate.getUnit("Byte per second")
+        val kibibitPerSecond = Units.dataTransferRate.getUnit("Kibibit per second")
+        val result = bytePerSecond.convert(BigDecimal.valueOf(-1111), kibibitPerSecond, 5)
+        assertEquals(-8.67969, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun dataTransferRate_gigabitPerSecondToBytePerSecond() {
+        val gigabitPerSecond = Units.dataTransferRate.getUnit("Gigabit per second")
+        val bytePerSecond = Units.dataTransferRate.getUnit("Byte per second")
+        val result = gigabitPerSecond.convert(BigDecimal.valueOf(0.000738), bytePerSecond, 2)
+        assertEquals(92250.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun dataTransferRate_kibibitPerSecondToTebibitPerSecond() {
+        val kibibitPerSecond = Units.dataTransferRate.getUnit("Kibibit per second")
+        val tebibitPerSecond = Units.dataTransferRate.getUnit("Tebibit per second")
+        val result = kibibitPerSecond.convert(BigDecimal.valueOf(568790.3), tebibitPerSecond, 14)
+        assertEquals(0.00052972724661, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
     fun distance_meterToFoot() {
         val meter = Units.distance.getUnit("Meter")
         val foot = Units.distance.getUnit("Foot")
@@ -68,6 +120,21 @@ internal class UnitsTest {
         val microsecond = Units.time.getUnit("Microsecond")
         val result = minute.convert(BigDecimal.valueOf(.890), microsecond, 5)
         assertEquals(5.34e+7, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun temperature_celsiusToFahrenheit() {
+        val celsius = Units.temperature.getUnit("Celsius")
+        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
+        val result = celsius.convert(BigDecimal.valueOf(100), fahrenheit, 2)
+        assertEquals(212.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun temperature_fahrenheitToCelsius() {
+        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
+        val celsius = Units.temperature.getUnit("Celsius")
+        val result = fahrenheit.convert(BigDecimal.valueOf(212), celsius, 2)
+        assertEquals(100.0, result.toDouble())
     }
 
     @org.junit.jupiter.api.Test

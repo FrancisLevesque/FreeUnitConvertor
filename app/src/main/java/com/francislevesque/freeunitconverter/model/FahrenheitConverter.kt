@@ -11,7 +11,7 @@ class FahrenheitConverter() : FactorConverter(BigDecimal.valueOf(0)) {
     // Fahrenheit to Celsius
     // [°C] = ([°F] − 32) × ​5⁄9
     override fun toBase(input: BigDecimal, precision: Int): BigDecimal {
-        val fiveOverNine = five.divide(nine)
+        val fiveOverNine = five.divide(nine, 20, RoundingMode.HALF_EVEN)
         return (input.subtract(thirtyTwo)).multiply(fiveOverNine)
     }
 

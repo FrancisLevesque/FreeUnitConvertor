@@ -9,11 +9,19 @@ class Category(var units: ArrayList<Unit>, val tag: String, private val default:
     }
 
     fun getUnit(name: String): Unit {
-        return units.first { it.name.toLowerCase(Locale.getDefault()) == name.toLowerCase(Locale.getDefault()) }
+        return try {
+            units.first { it.name.toLowerCase(Locale.getDefault()) == name.toLowerCase(Locale.getDefault()) }
+        } catch (e: java.util.NoSuchElementException) {
+            getDefaultUnit()
+        }
     }
 
     fun getDefaultUnit(): Unit {
-        return units.first { it.name.toLowerCase(Locale.getDefault()) == default.toLowerCase(Locale.getDefault()) }
+        return try {
+            units.first { it.name.toLowerCase(Locale.getDefault()) == default.toLowerCase(Locale.getDefault()) }
+        } catch (e: java.util.NoSuchElementException) {
+            units.first()
+        }
     }
 
     fun getIndex(unit: Unit): Int {

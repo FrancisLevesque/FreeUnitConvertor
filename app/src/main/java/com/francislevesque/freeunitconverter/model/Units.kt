@@ -12,8 +12,27 @@ object Units {
     private val centiConverter = FactorConverter(BigDecimal.valueOf(0.01))
     private val deciConverter = FactorConverter(BigDecimal.valueOf(0.1))
     private val kiloConverter = FactorConverter(BigDecimal.valueOf(1000.0))
+    private val kibiConverter = FactorConverter(BigDecimal.valueOf(1024.0))
     private val megaConverter = FactorConverter(BigDecimal.valueOf(1000000.0))
+    private val mebiConverter = FactorConverter(BigDecimal.valueOf(1048576.0))
     private val gigaConverter = FactorConverter(BigDecimal.valueOf(1000000000.0))
+    private val gibiConverter = FactorConverter(BigDecimal.valueOf(1073741824.0))
+    private val teraConverter = FactorConverter(BigDecimal.valueOf(1000000000000.0))
+    private val tebiConverter = FactorConverter(BigDecimal.valueOf(1099511627776.0))
+    private val petaConverter = FactorConverter(BigDecimal.valueOf(1000000000000000.0))
+    private val pebiConverter = FactorConverter(BigDecimal.valueOf(1125899906842624.0))
+
+    private val bitConverter = FactorConverter(BigDecimal.valueOf(0.125))
+    private val kiloBitConverter = FactorConverter(BigDecimal.valueOf(125))
+    private val kibiBitConverter = FactorConverter(BigDecimal.valueOf(128))
+    private val megaBitConverter = FactorConverter(BigDecimal.valueOf(125000))
+    private val mebiBitConverter = FactorConverter(BigDecimal.valueOf(131072))
+    private val gigaBitConverter = FactorConverter(BigDecimal.valueOf(125000000))
+    private val gibiBitConverter = FactorConverter(BigDecimal.valueOf(134217728))
+    private val teraBitConverter = FactorConverter(BigDecimal.valueOf(125000000000))
+    private val tebiBitConverter = FactorConverter(BigDecimal.valueOf(137438953472))
+    private val petaBitConverter = FactorConverter(BigDecimal.valueOf(125000000000000))
+    private val pebiBitConverter = FactorConverter(BigDecimal.valueOf(140737488355328))
 
     private val inchConverter = FactorConverter(BigDecimal.valueOf(0.0254))
     private val footConverter = FactorConverter(BigDecimal.valueOf(0.3048))
@@ -51,6 +70,47 @@ object Units {
     private val kelvinConverter = StepConverter(BigDecimal.valueOf(273.15))
 
     private val allUnits = arrayListOf<Unit>(
+        // AREA
+        Unit("Square meter", "m2", arrayListOf("Area"), baseConverter),
+        Unit("Square kilometer", "km2", arrayListOf("Area"), megaConverter),
+        // COMPUTING
+        Unit("Bit", "b", arrayListOf("Computing"), bitConverter),
+        Unit("Kilobit", "kbit", arrayListOf("Computing"), kiloBitConverter),
+        Unit("Kibibit", "Kibit", arrayListOf("Computing"), kibiBitConverter),
+        Unit("Megabit", "Mbit", arrayListOf("Computing"), megaBitConverter),
+        Unit("Megbibit", "Mibit", arrayListOf("Computing"), mebiBitConverter),
+        Unit("Gigabit", "Gbit", arrayListOf("Computing"), gigaBitConverter),
+        Unit("Gibibit", "Gibit", arrayListOf("Computing"), gibiBitConverter),
+        Unit("Terabit", "Tbit", arrayListOf("Computing"), teraBitConverter),
+        Unit("Tebibit", "Tibit", arrayListOf("Computing"), tebiBitConverter),
+        Unit("Petabit", "Pbit", arrayListOf("Computing"), petaBitConverter),
+        Unit("Pebibit", "Pibit", arrayListOf("Computing"), pebiBitConverter),
+        Unit("Byte", "B", arrayListOf("Computing"), baseConverter),
+        Unit("Kilobyte", "kB", arrayListOf("Computing"), kiloConverter),
+        Unit("Kibibyte", "KiB", arrayListOf("Computing"), kibiConverter),
+        Unit("Megabyte", "MB", arrayListOf("Computing"), megaConverter),
+        Unit("Megbibyte", "MiB", arrayListOf("Computing"), mebiConverter),
+        Unit("Gigabyte", "GB", arrayListOf("Computing"), gigaConverter),
+        Unit("Gibibyte", "GiB", arrayListOf("Computing"), gibiConverter),
+        Unit("Terabyte", "TB", arrayListOf("Computing"), teraConverter),
+        Unit("Tebibyte", "TiB", arrayListOf("Computing"), tebiConverter),
+        Unit("Petabyte", "PB", arrayListOf("Computing"), petaConverter),
+        Unit("Pebibyte", "PiB", arrayListOf("Computing"), pebiConverter),
+        // DATA TRANSFER RATE
+        Unit("Bit per second", "b/s", arrayListOf("Data Transfer Rate"), bitConverter),
+        Unit("Byte per second", "B/s", arrayListOf("Data Transfer Rate"), baseConverter),
+        Unit("Kilobit per second", "kbit/s", arrayListOf("Data Transfer Rate"), kiloBitConverter),
+        Unit("Kibibit per second", "Kibit/s", arrayListOf("Data Transfer Rate"), kibiBitConverter),
+        Unit("Kilobyte per second", "kB/s", arrayListOf("Data Transfer Rate"), kiloConverter),
+        Unit("Megabit per second", "Mbit/s", arrayListOf("Data Transfer Rate"), megaBitConverter),
+        Unit("Megbibit per second", "Mibit/s", arrayListOf("Data Transfer Rate"), mebiBitConverter),
+        Unit("Megabyte per second", "MB/s", arrayListOf("Data Transfer Rate"), megaConverter),
+        Unit("Gigabit per second", "Gbit/s", arrayListOf("Data Transfer Rate"), gigaBitConverter),
+        Unit("Gibibit per second", "Gibit/s", arrayListOf("Data Transfer Rate"), gibiBitConverter),
+        Unit("Gigabyte per second", "GB/s", arrayListOf("Data Transfer Rate"), gigaConverter),
+        Unit("Terabit per second", "Tbit/s", arrayListOf("Data Transfer Rate"), teraBitConverter),
+        Unit("Tebibit per second", "Tibit/s", arrayListOf("Data Transfer Rate"), tebiBitConverter),
+        Unit("Terabyte per second", "TB/s", arrayListOf("Data Transfer Rate"), teraConverter),
         // DISTANCE
         Unit("Nanometer", "nm", arrayListOf("Distance"), nanoConverter),
         Unit("Micrometer", "μm", arrayListOf("Distance"), microConverter),
@@ -113,6 +173,9 @@ object Units {
 
     // WARNING: When creating SHARED categories they MUST have the SAME base unit!!
     //          Ex: cooking and mass both use Gram
+    val area = Category(allUnits, "Area", "Square meter")
+    val computing = Category(allUnits, "Computing", "Byte")
+    val dataTransferRate = Category(allUnits, "Data Transfer Rate", "Bit per second")
     val cooking = Category(allUnits, "Cooking", "Gram")
     val distance = Category(allUnits, "Distance", "Meter")
     val mass = Category(allUnits, "Mass", "Gram")
@@ -121,6 +184,9 @@ object Units {
     val volume = Category(allUnits, "Volume", "Liter")
 
     val categories = listOf(
+        area.toString(),
+        computing.toString(),
+        dataTransferRate.toString(),
         cooking.toString(),
         distance.toString(),
         mass.toString(),
@@ -135,6 +201,9 @@ object Units {
 
     fun getCategoryFromName(category: String): Category {
         return when(category) {
+            "Area" -> area
+            "Computing" -> computing
+            "Data Transfer Rate" -> dataTransferRate
             "Cooking" -> cooking
             "Distance" -> distance
             "Mass" -> mass

@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigDecimal
 import kotlin.collections.ArrayList
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var currentCategory: Category
     private lateinit var fromUnit : Unit
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     //     - gigabyte/bit...
     //   - Add more tests
     //   - Add climbing grade conversions
-    //   - Fix farentheit to celcius
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateToUnit(value: CharSequence?) {
-        if (value.isNullOrBlank() || value.toString() == ".") {
+        if (value.isNullOrBlank() || value.toString() == "." || value.toString() == "-") {
             toValue.text = ""
         } else {
             convert(value.toString().toBigDecimal())
