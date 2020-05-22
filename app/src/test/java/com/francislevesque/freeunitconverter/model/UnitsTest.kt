@@ -11,6 +11,41 @@ internal class UnitsTest {
         val result = squareMeter.convert(BigDecimal.valueOf(-23497.74), squareKilometer, 8)
         assertEquals(-0.02349774, result.toDouble())
     }
+    @org.junit.jupiter.api.Test
+    fun area_squareMeterToSquareMile() {
+        val squareMeter = Units.area.getUnit("Square meter")
+        val squareMile = Units.area.getUnit("Square mile")
+        val result = squareMeter.convert(BigDecimal.valueOf(100020), squareMile, 10)
+        assertEquals(0.0386179379, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun area_squareInchToSquareMeter() {
+        val squareInch = Units.area.getUnit("Square inch")
+        val squareMeter = Units.area.getUnit("Square meter")
+        val result = squareInch.convert(BigDecimal.valueOf(300), squareMeter, 6)
+        assertEquals(0.193548, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun area_hectareToAcre() {
+        val hectare = Units.area.getUnit("Hectare")
+        val acre = Units.area.getUnit("Acre")
+        val result = hectare.convert(BigDecimal.valueOf(23.9), acre, 9)
+        assertEquals(59.058186171, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun area_squareMileToSquareYard() {
+        val squareMile = Units.area.getUnit("Square mile")
+        val squareYard = Units.area.getUnit("Square yard")
+        val result = squareMile.convert(BigDecimal.valueOf(0.003209), squareYard, 5)
+        assertEquals(9940.1984, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun area_squareFootToSquareInch() {
+        val squareFoot = Units.area.getUnit("Square foot")
+        val squareInch = Units.area.getUnit("Square inch")
+        val result = squareFoot.convert(BigDecimal.valueOf(900.311), squareInch, 6)
+        assertEquals(129644.784, result.toDouble())
+    }
 
     @org.junit.jupiter.api.Test
     fun computing_byteToKibibit() {
@@ -76,6 +111,21 @@ internal class UnitsTest {
         val millimeter = Units.distance.getUnit("Millimeter")
         val result = yard.convert(BigDecimal.valueOf(0.09812), millimeter, 7)
         assertEquals(89.720928, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun frequency_hertzToKilohertz() {
+        val hertz = Units.frequency.getUnit("Hertz")
+        val kilohertz = Units.frequency.getUnit("Kilohertz")
+        val result = hertz.convert(BigDecimal.valueOf(319.4), kilohertz, 4)
+        assertEquals(0.3194, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun frequency_megahertzToHertz() {
+        val megahertz = Units.frequency.getUnit("Megahertz")
+        val hertz = Units.frequency.getUnit("Hertz")
+        val result = megahertz.convert(BigDecimal.valueOf(0.004091), hertz, 1)
+        assertEquals(4091.0, result.toDouble())
     }
 
     @org.junit.jupiter.api.Test

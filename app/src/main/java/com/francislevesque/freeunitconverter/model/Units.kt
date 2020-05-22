@@ -6,6 +6,13 @@ import java.math.BigDecimal
 object Units {
     private val baseConverter = FactorConverter(BigDecimal.valueOf(1.0))
 
+    private val squareInchConverter = FactorConverter(BigDecimal.valueOf(0.00064516))
+    private val squareFootConverter = FactorConverter(BigDecimal.valueOf(0.09290304))
+    private val squareYardConverter = FactorConverter(BigDecimal.valueOf(0.83612736))
+    private val squareMileConverter = FactorConverter(BigDecimal.valueOf(2589988.1103))
+    private val hectareConverter = FactorConverter(BigDecimal.valueOf(10000.0))
+    private val acreConverter = FactorConverter(BigDecimal.valueOf(4046.8564224))
+
     private val nanoConverter = FactorConverter(BigDecimal.valueOf(0.000000001))
     private val microConverter = FactorConverter(BigDecimal.valueOf(0.000001))
     private val milliConverter = FactorConverter(BigDecimal.valueOf(0.001))
@@ -73,6 +80,12 @@ object Units {
         // AREA
         Unit("Square meter", "m2", arrayListOf("Area"), baseConverter),
         Unit("Square kilometer", "km2", arrayListOf("Area"), megaConverter),
+        Unit("Square inch", "in2", arrayListOf("Area"), squareInchConverter),
+        Unit("Square foot", "ft2", arrayListOf("Area"), squareFootConverter),
+        Unit("Square yard", "yd2", arrayListOf("Area"), squareYardConverter),
+        Unit("Square mile", "mi2", arrayListOf("Area"), squareMileConverter),
+        Unit("Hectare", "ha", arrayListOf("Area"), hectareConverter),
+        Unit("Acre", "ac", arrayListOf("Area"), acreConverter),
         // COMPUTING
         Unit("Bit", "b", arrayListOf("Computing"), bitConverter),
         Unit("Kilobit", "kbit", arrayListOf("Computing"), kiloBitConverter),
@@ -123,8 +136,15 @@ object Units {
         Unit("Foot", "ft", arrayListOf("Distance"), footConverter),
         Unit("Yard", "yd", arrayListOf("Distance"), yardConverter),
         Unit("Mile", "mi", arrayListOf("Distance"), mileConverter),
-        Unit("Fathom", "mi", arrayListOf("Distance"), fathomConverter),
+        Unit("Fathom", "ftm", arrayListOf("Distance"), fathomConverter),
         Unit("Nautical mile", "nmi", arrayListOf("Distance"), nauticalMileConverter),
+        // FREQUENCY
+        Unit("Hertz", "Hz", arrayListOf("Frequency"), baseConverter),
+        Unit("Kilohertz", "kHz", arrayListOf("Frequency"), kiloConverter),
+        Unit("Megahertz", "MHz", arrayListOf("Frequency"), megaConverter),
+        Unit("Gigahertz", "GHz", arrayListOf("Frequency"), gigaConverter),
+        // FUEL ECONOMY
+            // TODO
         // MASS
         Unit("Milligram", "mg", arrayListOf("Mass", "Weight", "Cooking"), milliConverter),
         Unit("Gram", "g", arrayListOf("Mass", "Weight", "Cooking"), gramConverter),
@@ -152,6 +172,10 @@ object Units {
         Unit("Imperial Pint", "pt", arrayListOf("Volume"), imperialPintConverter),
         Unit("Quart", "qt", arrayListOf("Volume"), quartConverter),
         Unit("US Gallon", "gal", arrayListOf("Volume"), usGallonConverter),
+        // PRESSURE
+            // TODO
+        // SPEED
+            // TODO
         // TEMPERATURE
         Unit("Kelvin", "K", arrayListOf("Temperature"), kelvinConverter),
         Unit("Celsius", "°C", arrayListOf("Temperature"), baseConverter),
@@ -175,8 +199,9 @@ object Units {
     //          Ex: cooking and mass both use Gram
     val area = Category(allUnits, "Area", "Square meter")
     val computing = Category(allUnits, "Computing", "Byte")
-    val dataTransferRate = Category(allUnits, "Data Transfer Rate", "Bit per second")
     val cooking = Category(allUnits, "Cooking", "Gram")
+    val frequency = Category(allUnits, "Frequency", "Hertz")
+    val dataTransferRate = Category(allUnits, "Data Transfer Rate", "Bit per second")
     val distance = Category(allUnits, "Distance", "Meter")
     val mass = Category(allUnits, "Mass", "Gram")
     val temperature = Category(allUnits, "Temperature", "Celsius")
@@ -186,8 +211,9 @@ object Units {
     val categories = listOf(
         area.toString(),
         computing.toString(),
-        dataTransferRate.toString(),
         cooking.toString(),
+        frequency.toString(),
+        dataTransferRate.toString(),
         distance.toString(),
         mass.toString(),
         temperature.toString(),
@@ -203,8 +229,9 @@ object Units {
         return when(category) {
             "Area" -> area
             "Computing" -> computing
-            "Data Transfer Rate" -> dataTransferRate
             "Cooking" -> cooking
+            "Frequency" -> frequency
+            "Data Transfer Rate" -> dataTransferRate
             "Distance" -> distance
             "Mass" -> mass
             "Temperature" -> temperature

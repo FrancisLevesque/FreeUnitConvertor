@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     // TODO:
     //   - Add more units
-    //     - gigabyte/bit...
     //   - Add more tests
     //   - Add climbing grade conversions
 
