@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fromUnit : Unit
     private lateinit var toUnit : Unit
 
-    // TODO:
-    //   - Add more units
-    //   - Add more tests
-    //   - Add climbing grade conversions
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -41,6 +41,10 @@ object Units {
     private val petaBitConverter = FactorConverter(BigDecimal.valueOf(125000000000000))
     private val pebiBitConverter = FactorConverter(BigDecimal.valueOf(140737488355328))
 
+    private val litersPer100KilometersConverter = InvertedFactorConverter(BigDecimal.valueOf(100.0))
+    private val milesPerUSGallonConverter = ReverseFactorConverter(BigDecimal.valueOf(2.352145833))
+    private val milesPerImperialGallonConverter = FactorConverter(BigDecimal.valueOf(0.3540061899346471))
+
     private val inchConverter = FactorConverter(BigDecimal.valueOf(0.0254))
     private val footConverter = FactorConverter(BigDecimal.valueOf(0.3048))
     private val yardConverter = FactorConverter(BigDecimal.valueOf(0.9144))
@@ -48,16 +52,16 @@ object Units {
     private val fathomConverter = FactorConverter(BigDecimal.valueOf(1.8288))
     private val nauticalMileConverter = FactorConverter(BigDecimal.valueOf(1852.0))
 
-    private val gramConverter = FactorConverter(BigDecimal.valueOf(1.0))
     private val ounceConverter = FactorConverter(BigDecimal.valueOf(28.34952))
     private val poundConverter = FactorConverter(BigDecimal.valueOf(453.59237))
     private val tonConverter = FactorConverter(BigDecimal.valueOf(907184.74))
+    private val teaspoonWeightConverter = FactorConverter(BigDecimal.valueOf(5))
+    private val tablespoonWeightConverter = FactorConverter(BigDecimal.valueOf(15))
 
-    private val teaspoonConverter = FactorConverter(BigDecimal.valueOf(0.005))
-    private val tablespoonConverter = FactorConverter(BigDecimal.valueOf(0.015))
-    private val cupConverter = FactorConverter(BigDecimal.valueOf(0.25))
-    private val usCupConverter = FactorConverter(BigDecimal.valueOf(0.2365882365))
-
+    private val teaspoonVolumeConverter = FactorConverter(BigDecimal.valueOf(0.005))
+    private val tablespoonVolumeConverter = FactorConverter(BigDecimal.valueOf(0.015))
+    private val cupVolumeConverter = FactorConverter(BigDecimal.valueOf(0.25))
+    private val usLegalCupVolumeConverter = FactorConverter(BigDecimal.valueOf(0.24))
     private val fluidOunceConverter = FactorConverter(BigDecimal.valueOf(0.030))
     private val cubicInchConverter = FactorConverter(BigDecimal.valueOf(0.016387064))
     private val cubicFootConverter = FactorConverter(BigDecimal.valueOf(28.316864592))
@@ -66,6 +70,17 @@ object Units {
     private val imperialPintConverter = FactorConverter(BigDecimal.valueOf(0.568))
     private val quartConverter = FactorConverter(BigDecimal.valueOf(0.94635295))
     private val usGallonConverter = FactorConverter(BigDecimal.valueOf(3.785411784))
+    private val imperialGallonConverter = FactorConverter(BigDecimal.valueOf(4.54609))
+
+    private val psiConverter = FactorConverter(BigDecimal.valueOf(0.00014503773773))
+    private val atmosphereConverter = FactorConverter(BigDecimal.valueOf(101325.0))
+
+    private val kmhConverter = ReverseFactorConverter(BigDecimal.valueOf(3.6))
+    private val ftsConverter = FactorConverter(BigDecimal.valueOf(0.3048))
+    private val mphConverter = FactorConverter(BigDecimal.valueOf(0.44704))
+    private val knotConverter = ReverseFactorConverter(BigDecimal.valueOf(1.943844))
+
+    private val kelvinConverter = StepConverter(BigDecimal.valueOf(273.15))
 
     private val minuteConverter = FactorConverter(BigDecimal.valueOf(60.0))
     private val hourConverter = FactorConverter(BigDecimal.valueOf(3600.0))
@@ -73,8 +88,6 @@ object Units {
     private val weekConverter = FactorConverter(BigDecimal.valueOf(604800.0))
     private val monthConverter = FactorConverter(BigDecimal.valueOf(2629800.0))
     private val yearConverter = FactorConverter(BigDecimal.valueOf(31557600.0))
-
-    private val kelvinConverter = StepConverter(BigDecimal.valueOf(273.15))
 
     private val allUnits = arrayListOf<Unit>(
         // AREA
@@ -144,38 +157,31 @@ object Units {
         Unit("Megahertz", "MHz", arrayListOf("Frequency"), megaConverter),
         Unit("Gigahertz", "GHz", arrayListOf("Frequency"), gigaConverter),
         // FUEL ECONOMY
-            // TODO
+        Unit("Kilometer per liter", "km/L", arrayListOf("Fuel Economy"), baseConverter),
+        Unit("Liters per 100 kilometers", "L/100km", arrayListOf("Fuel Economy"), litersPer100KilometersConverter),
+        Unit("Miles per US Gallon", "mpg", arrayListOf("Fuel Economy"), milesPerUSGallonConverter),
+        Unit("Miles per Imperial Gallon", "mpg", arrayListOf("Fuel Economy"), milesPerImperialGallonConverter),
         // MASS
-        Unit("Milligram", "mg", arrayListOf("Mass", "Weight", "Cooking"), milliConverter),
-        Unit("Gram", "g", arrayListOf("Mass", "Weight", "Cooking"), gramConverter),
-        Unit("Kilogram", "kg", arrayListOf("Mass", "Weight", "Cooking"), kiloConverter),
+        Unit("Milligram", "mg", arrayListOf("Mass", "Weight"), milliConverter),
+        Unit("Gram", "g", arrayListOf("Mass", "Weight"), baseConverter),
+        Unit("Kilogram", "kg", arrayListOf("Mass", "Weight"), kiloConverter),
         Unit("Tonnes", "t", arrayListOf("Mass", "Weight"), megaConverter),
-        Unit("Ounce", "oz", arrayListOf("Mass", "Cooking"), ounceConverter),
-        Unit("Pound", "lb", arrayListOf("Mass", "Cooking"), poundConverter),
+        Unit("Teaspoon", "tsp", arrayListOf("Mass", "Weight"), teaspoonWeightConverter),
+        Unit("Tablespoon", "tbsp", arrayListOf("Mass", "Weight"), tablespoonWeightConverter),
+        Unit("Ounce", "oz", arrayListOf("Mass"), ounceConverter),
+        Unit("Pound", "lb", arrayListOf("Mass"), poundConverter),
         Unit("US Ton", "T", arrayListOf("Mass"), tonConverter),
-        // COOKING
-        Unit("Teaspoon", "tsp", arrayListOf("Cooking"), teaspoonConverter),
-        Unit("Tablespoon", "tbsp", arrayListOf("Cooking"), tablespoonConverter),
-        Unit("Metric Cup", "c", arrayListOf("Cooking"), cupConverter),
-        Unit("US Cup", "C", arrayListOf("Cooking"), usCupConverter),
-        // VOLUME
-        Unit("Milliliter", "ml", arrayListOf("Volume"), milliConverter),
-        Unit("Centiliter", "cl", arrayListOf("Volume"), centiConverter),
-        Unit("Deciliter", "dl", arrayListOf("Volume"), deciConverter),
-        Unit("Liter", "l", arrayListOf("Volume"), baseConverter),
-        Unit("Cubic Meter", "m3", arrayListOf("Volume"), kiloConverter),
-        Unit("Cubic Inch", "in3", arrayListOf("Volume"), cubicInchConverter),
-        Unit("Cubic Foot", "ft3", arrayListOf("Volume"), cubicFootConverter),
-        Unit("Fluid Ounce", "fl oz", arrayListOf("Volume"), fluidOunceConverter),
-        Unit("Pint", "p", arrayListOf("Volume"), pintConverter),
-        Unit("US Pint", "pt", arrayListOf("Volume"), usPintConverter),
-        Unit("Imperial Pint", "pt", arrayListOf("Volume"), imperialPintConverter),
-        Unit("Quart", "qt", arrayListOf("Volume"), quartConverter),
-        Unit("US Gallon", "gal", arrayListOf("Volume"), usGallonConverter),
         // PRESSURE
-            // TODO
+        Unit("Pascal", "Pa", arrayListOf("Pressure"), baseConverter),
+        Unit("Kilopascal", "kPa", arrayListOf("Pressure"), kiloConverter),
+        Unit("Pound-force per square inch", "psi", arrayListOf("Pressure"), psiConverter),
+        Unit("Standard atmosphere", "atm", arrayListOf("Pressure"), atmosphereConverter),
         // SPEED
-            // TODO
+        Unit("Meters per second", "m/s", arrayListOf("Speed"), baseConverter),
+        Unit("Kilometers per hour", "km/h", arrayListOf("Speed"), kmhConverter),
+        Unit("Feet per second", "ft/s", arrayListOf("Speed"), ftsConverter),
+        Unit("Miles per hour", "mph", arrayListOf("Speed"), mphConverter),
+        Unit("Knot", "kn", arrayListOf("Speed"), knotConverter),
         // TEMPERATURE
         Unit("Kelvin", "K", arrayListOf("Temperature"), kelvinConverter),
         Unit("Celsius", "°C", arrayListOf("Temperature"), baseConverter),
@@ -191,19 +197,40 @@ object Units {
         Unit("Week", "w", arrayListOf("Time"), weekConverter),
         Unit("Month", "mo", arrayListOf("Time"), monthConverter),
         Unit("Year", "yr", arrayListOf("Time"), yearConverter),
+        // VOLUME
+        Unit("Milliliter", "ml", arrayListOf("Volume"), milliConverter),
+        Unit("Centiliter", "cl", arrayListOf("Volume"), centiConverter),
+        Unit("Deciliter", "dl", arrayListOf("Volume"), deciConverter),
+        Unit("Liter", "l", arrayListOf("Volume"), baseConverter),
+        Unit("Teaspoon", "tsp", arrayListOf("Volume"), teaspoonVolumeConverter),
+        Unit("Tablespoon", "tbsp", arrayListOf("Volume"), tablespoonVolumeConverter),
+        Unit("Metric Cup", "c", arrayListOf("Volume"), cupVolumeConverter),
+        Unit("US Legal Cup", "C", arrayListOf("Volume"), usLegalCupVolumeConverter),
+        Unit("Cubic Meter", "m3", arrayListOf("Volume"), kiloConverter),
+        Unit("Cubic Inch", "in3", arrayListOf("Volume"), cubicInchConverter),
+        Unit("Cubic Foot", "ft3", arrayListOf("Volume"), cubicFootConverter),
+        Unit("Fluid Ounce", "fl oz", arrayListOf("Volume"), fluidOunceConverter),
+        Unit("Pint", "p", arrayListOf("Volume"), pintConverter),
+        Unit("US Pint", "pt", arrayListOf("Volume"), usPintConverter),
+        Unit("Imperial Pint", "pt", arrayListOf("Volume"), imperialPintConverter),
+        Unit("Quart", "qt", arrayListOf("Volume"), quartConverter),
+        Unit("US Gallon", "gal", arrayListOf("Volume"), usGallonConverter),
+        Unit("Imperial Gallon", "gal", arrayListOf("Volume"), imperialGallonConverter),
         // EMPTY (for the error case)
         Unit("N/A", "N/A", arrayListOf("N/A"), baseConverter)
     )
 
     // WARNING: When creating SHARED categories they MUST have the SAME base unit!!
-    //          Ex: cooking and mass both use Gram
+    // TODO: Add check for this
     val area = Category(allUnits, "Area", "Square meter")
     val computing = Category(allUnits, "Computing", "Byte")
-    val cooking = Category(allUnits, "Cooking", "Gram")
     val frequency = Category(allUnits, "Frequency", "Hertz")
+    val fuelEconomy = Category(allUnits, "Fuel Economy", "Kilometer per liter")
     val dataTransferRate = Category(allUnits, "Data Transfer Rate", "Bit per second")
     val distance = Category(allUnits, "Distance", "Meter")
     val mass = Category(allUnits, "Mass", "Gram")
+    val pressure = Category(allUnits, "Pressure", "Pascal")
+    val speed = Category(allUnits, "Speed", "Meters per second")
     val temperature = Category(allUnits, "Temperature", "Celsius")
     val time = Category(allUnits, "Time", "Second")
     val volume = Category(allUnits, "Volume", "Liter")
@@ -211,11 +238,13 @@ object Units {
     val categories = listOf(
         area.toString(),
         computing.toString(),
-        cooking.toString(),
         frequency.toString(),
+        fuelEconomy.toString(),
         dataTransferRate.toString(),
         distance.toString(),
         mass.toString(),
+        pressure.toString(),
+        speed.toString(),
         temperature.toString(),
         time.toString(),
         volume.toString()
@@ -229,11 +258,13 @@ object Units {
         return when(category) {
             "Area" -> area
             "Computing" -> computing
-            "Cooking" -> cooking
             "Frequency" -> frequency
+            "Fuel Economy" -> fuelEconomy
             "Data Transfer Rate" -> dataTransferRate
             "Distance" -> distance
             "Mass" -> mass
+            "Pressure" -> pressure
+            "Speed" -> speed
             "Temperature" -> temperature
             "Time" -> time
             "Volume" -> volume

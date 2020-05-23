@@ -129,6 +129,49 @@ internal class UnitsTest {
     }
 
     @org.junit.jupiter.api.Test
+    fun fuelEconomy_kilometerPerLiterToMilesPerUSGallon() {
+        val kilometerPerLiter = Units.fuelEconomy.getUnit("Kilometer per liter")
+        val milesPerUSGallon = Units.fuelEconomy.getUnit("Miles per US Gallon")
+        val result = kilometerPerLiter.convert(BigDecimal.valueOf(20.004), milesPerUSGallon, 6)
+        assertEquals(47.052325, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun fuelEconomy_milesPerImperialGallonToKilometerPerLiter() {
+        val milesPerImperialGallon = Units.fuelEconomy.getUnit("Miles per Imperial Gallon")
+        val kilometerPerLiter = Units.fuelEconomy.getUnit("Kilometer per liter")
+        val result = milesPerImperialGallon.convert(BigDecimal.valueOf(5032.3156), kilometerPerLiter, 6)
+        assertEquals(1781.470872, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun fuelEconomy_litersPer100KilometersToMilesPerUSGallon() {
+        val litersPer100Kilometers = Units.fuelEconomy.getUnit("Liters per 100 kilometers")
+        val milesPerUSGallon = Units.fuelEconomy.getUnit("Miles per US Gallon")
+        val result = litersPer100Kilometers.convert(BigDecimal.valueOf(903.021), milesPerUSGallon, 9)
+        assertEquals(0.260475209, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun fuelEconomy_milesPerUSGallonToLitersPer100Kilometers() {
+        val milesPerUSGallon = Units.fuelEconomy.getUnit("Miles per US Gallon")
+        val litersPer100Kilometers = Units.fuelEconomy.getUnit("Liters per 100 kilometers")
+        val result = milesPerUSGallon.convert(BigDecimal.valueOf(7.0), litersPer100Kilometers, 4)
+        assertEquals(33.6021, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun fuelEconomy_kilometerPerLiterToLitersPer100Kilometers() {
+        val kilometerPerLiter = Units.fuelEconomy.getUnit("Kilometer per liter")
+        val litersPer100Kilometers = Units.fuelEconomy.getUnit("Liters per 100 kilometers")
+        val result = kilometerPerLiter.convert(BigDecimal.valueOf(10.0), litersPer100Kilometers, 9)
+        assertEquals(10.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun fuelEconomy_litersPer100KilometersToKilometerPerLiter() {
+        val litersPer100Kilometers = Units.fuelEconomy.getUnit("Liters per 100 kilometers")
+        val kilometerPerLiter = Units.fuelEconomy.getUnit("Kilometer per liter")
+        val result = litersPer100Kilometers.convert(BigDecimal.valueOf(10.0), kilometerPerLiter, 9)
+        assertEquals(10.0, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
     fun mass_gramToPound() {
         val gram = Units.mass.getUnit("Gram")
         val pound = Units.mass.getUnit("Pound")
@@ -148,6 +191,72 @@ internal class UnitsTest {
         val kilogram = Units.mass.getUnit("Kilogram")
         val result = ounce.convert(BigDecimal.valueOf(2134), kilogram, 5)
         assertEquals(60.49788, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun mass_gramToTeaspoon() {
+        val gram = Units.mass.getUnit("Gram")
+        val teaspoon = Units.mass.getUnit("Teaspoon")
+        val result = gram.convert(BigDecimal.valueOf(900), teaspoon, 0)
+        assertEquals(180.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun mass_teaspoonToTablespoon() {
+        val teaspoon = Units.mass.getUnit("Teaspoon")
+        val tablespoon = Units.mass.getUnit("Tablespoon")
+        val result = teaspoon.convert(BigDecimal.valueOf(10), tablespoon, 5)
+        assertEquals(3.33333, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun pressure_pascalToAtmosphere() {
+        val pascal = Units.pressure.getUnit("Pascal")
+        val atm = Units.pressure.getUnit("Standard atmosphere")
+        val result = pascal.convert(BigDecimal.valueOf(909090), atm, 8)
+        assertEquals(8.97202073, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun pressure_psiToPascal() {
+        val psi = Units.pressure.getUnit("Pound-force per square inch")
+        val pascal = Units.pressure.getUnit("Pascal")
+        val result = pascal.convert(BigDecimal.valueOf(0.00341), psi, 8)
+        assertEquals(23.51112237, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun speed_metersPerSecondToFeetPerSecond() {
+        val metersPerSecond = Units.speed.getUnit("Meters per second")
+        val feetPerSecond = Units.speed.getUnit("Feet per second")
+        val result = metersPerSecond.convert(BigDecimal.valueOf(12.305), feetPerSecond, 7)
+        assertEquals(40.3707349, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun speed_knotToMetersPerSecond() {
+        val knot = Units.speed.getUnit("Knot")
+        val metersPerSecond = Units.speed.getUnit("Meters per second")
+        val result = knot.convert(BigDecimal.valueOf(0.021), metersPerSecond, 7)
+        assertEquals(0.0108033, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun speed_mphToKph() {
+        val mph = Units.speed.getUnit("Miles per hour")
+        val kph = Units.speed.getUnit("Kilometers per hour")
+        val result = mph.convert(BigDecimal.valueOf(56.709), kph, 7)
+        assertEquals(91.2642889, result.toDouble())
+    }
+
+    @org.junit.jupiter.api.Test
+    fun temperature_celsiusToFahrenheit() {
+        val celsius = Units.temperature.getUnit("Celsius")
+        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
+        val result = celsius.convert(BigDecimal.valueOf(100), fahrenheit, 2)
+        assertEquals(212.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun temperature_fahrenheitToCelsius() {
+        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
+        val celsius = Units.temperature.getUnit("Celsius")
+        val result = fahrenheit.convert(BigDecimal.valueOf(212), celsius, 2)
+        assertEquals(100.0, result.toDouble())
     }
 
     @org.junit.jupiter.api.Test
@@ -173,18 +282,46 @@ internal class UnitsTest {
     }
 
     @org.junit.jupiter.api.Test
-    fun temperature_celsiusToFahrenheit() {
-        val celsius = Units.temperature.getUnit("Celsius")
-        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
-        val result = celsius.convert(BigDecimal.valueOf(100), fahrenheit, 2)
-        assertEquals(212.0, result.toDouble())
+    fun volume_literToQuart() {
+        val liter = Units.volume.getUnit("Liter")
+        val quart = Units.volume.getUnit("Quart")
+        val result = liter.convert(BigDecimal.valueOf(34.0013), quart, 5)
+        assertEquals(35.92877, result.toDouble())
     }
     @org.junit.jupiter.api.Test
-    fun temperature_fahrenheitToCelsius() {
-        val fahrenheit = Units.temperature.getUnit("Fahrenheit")
-        val celsius = Units.temperature.getUnit("Celsius")
-        val result = fahrenheit.convert(BigDecimal.valueOf(212), celsius, 2)
-        assertEquals(100.0, result.toDouble())
+    fun volume_usPintToLiter() {
+        val usPint = Units.volume.getUnit("US Pint")
+        val liter = Units.volume.getUnit("Liter")
+        val result = usPint.convert(BigDecimal.valueOf(999.0099), liter, 8)
+        assertEquals(472.70798097, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun volume_usGallonToImperialGallon() {
+        val usGallon = Units.volume.getUnit("US Gallon")
+        val imperialGallon = Units.volume.getUnit("Imperial Gallon")
+        val result = usGallon.convert(BigDecimal.valueOf(1111.1112), imperialGallon, 9)
+        assertEquals(925.193612492, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun volume_metricCupToLiter() {
+        val metricCup = Units.volume.getUnit("Metric Cup")
+        val liter = Units.volume.getUnit("Liter")
+        val result = metricCup.convert(BigDecimal.valueOf(1), liter, 2)
+        assertEquals(0.25, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun volume_usLegalCupToTablespoon() {
+        val usLegalCup = Units.volume.getUnit("US Legal Cup")
+        val tablespoon = Units.volume.getUnit("Tablespoon")
+        val result = usLegalCup.convert(BigDecimal.valueOf(1), tablespoon, 5)
+        assertEquals(16.0, result.toDouble())
+    }
+    @org.junit.jupiter.api.Test
+    fun volume_teaspoonToTablespoon() {
+        val teaspoon = Units.volume.getUnit("Teaspoon")
+        val tablespoon = Units.volume.getUnit("Tablespoon")
+        val result = teaspoon.convert(BigDecimal.valueOf(10), tablespoon, 5)
+        assertEquals(3.33333, result.toDouble())
     }
 
     @org.junit.jupiter.api.Test
